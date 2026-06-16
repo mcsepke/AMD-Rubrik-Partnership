@@ -412,6 +412,14 @@
   .tl-node-finale-cap{position:absolute;left:2365px;top:352px;transform:translateX(-50%);width:208px;text-align:center;font-family:"Archivo";font-weight:800;font-size:14px;color:#fff;z-index:4;}
   .tl-node-finale-cap span{display:block;font-family:"JetBrains Mono";font-weight:400;font-size:10px;line-height:1.45;letter-spacing:.01em;color:rgba(255,255,255,.62);margin-top:6px;}
 
+  .tl-firststep{position:absolute;left:1810px;top:293px;transform:translateX(-50%);z-index:4;text-align:center;width:170px;}
+  .tl-firststep .fs-dot{width:14px;height:14px;border-radius:50%;background:linear-gradient(135deg,var(--amd),var(--rubrik));box-shadow:0 0 14px rgba(255,255,255,.45);margin:0 auto;border:2px solid var(--ink);position:relative;z-index:2;}
+  .tl-firststep .fs-card{margin-top:11px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14);border-radius:10px;padding:10px 12px;}
+  .tl-firststep .fs-yr{font-family:"JetBrains Mono";font-size:10px;font-weight:700;letter-spacing:.04em;background:linear-gradient(90deg,#ff5a60,#2ad0aa);-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:4px;}
+  .tl-firststep .fs-h{font-family:"Archivo";font-weight:800;font-size:13px;color:#fff;margin-bottom:3px;}
+  .tl-firststep .fs-s{font-size:10px;line-height:1.35;color:rgba(255,255,255,.6);}
+  .tl-node-partner .pn-s b{color:#fff;font-weight:700;}
+
   /* Roadmap */
   .road{position:relative;display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin-top:20px;}
   .road::before{content:"";position:absolute;left:0;right:0;top:34px;height:2px;background:var(--line-strong);}
@@ -952,14 +960,23 @@
         <circle cx="2365" cy="300" r="27" fill="none" stroke="#fff" stroke-width="1.5" opacity=".55"/>
       </svg>
 
+      <div class="tl-firststep">
+        <div class="fs-dot"></div>
+        <div class="fs-card">
+          <div class="fs-yr">2023 · First step</div>
+          <div class="fs-h">NAS Cloud Direct + RCV</div>
+          <div class="fs-s">AMD's first Rubrik purchase — the foundation is laid.</div>
+        </div>
+      </div>
+
       <div class="tl-node-partner">
         <div class="pn-yr">2025</div>
         <div class="pn-h">Strategic Partnership</div>
-        <div class="pn-s">Cyber resilience + agentic AI — governed, with rewind, at the speed of AMD</div>
-        <div class="pn-tags"><span>Rubrik Agent Cloud</span><span>AI Agent Rewind</span><span>Instinct MI350</span></div>
+        <div class="pn-s">The decision to <b>protect all data has begun</b> — fusing cyber resilience with agentic AI.</div>
+        <div class="pn-tags"><span>Rubrik Orchestrated Cyber Recovery</span><span>Turbo Threat Hunting</span><span>Instinct MI350</span></div>
       </div>
       <div class="tl-node-finale"><div class="fn-x">100×</div></div>
-      <div class="tl-node-finale-cap">2026 · Future<span>Exponential, governed productivity — recovery in hours, autonomous business recovery, at AMD speed.</span></div>
+      <div class="tl-node-finale-cap">2026 · Future<span>Plans to protect SaaS &amp; Identity too — AI-governed, autonomous business recovery, accelerated by AMD for exponential productivity.</span></div>
     </div>
   </div>
 </section>
@@ -1373,6 +1390,7 @@ if(tlc){
   TLAMD.forEach(e=>mk(e,'amd'));
   TLRUB.forEach(e=>mk(e,'rub'));
   ['2015','2016','2017','2018','2019','2020','2021','2022','2023','2024'].forEach((y,i)=>{
+    if(y==='2023') return;
     const yl=document.createElement('div'); yl.className='tl-year';
     yl.style.left=(330+i*185)+'px'; yl.style.top='300px'; yl.textContent=y;
     tlc.appendChild(yl);
