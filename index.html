@@ -476,9 +476,50 @@
     .fleet-grid{grid-template-columns:1fr;} .platform ul{grid-template-columns:1fr;}
     .road{grid-template-columns:1fr;} section{padding:56px 0;}
   }
+  /* Password gate */
+  body.locked{overflow:hidden;}
+  body.locked header.bar,body.locked main,body.locked footer,body.locked .pager,body.locked .drawer,body.locked .scrim{display:none!important;}
+  #gate{position:fixed;inset:0;z-index:9999;background:var(--ink);display:flex;align-items:center;justify-content:center;padding:24px;}
+  #gate .hero-grid{position:absolute;inset:0;}
+  .gate-card{position:relative;z-index:2;width:100%;max-width:392px;text-align:center;}
+  .gate-lock{width:44px;height:44px;border-radius:12px;margin:0 auto 22px;display:grid;place-items:center;background:linear-gradient(135deg,var(--amd),var(--rubrik));box-shadow:0 10px 30px -10px rgba(0,179,136,.5);}
+  .gate-lock svg{width:22px;height:22px;}
+  .gate-eyebrow{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--rubrik);margin-bottom:12px;}
+  .gate-h{font-family:"Archivo",sans-serif;font-weight:800;font-size:24px;color:#fff;letter-spacing:-.02em;margin:0 0 8px;}
+  .gate-s{font-size:13.5px;line-height:1.5;color:rgba(255,255,255,.62);margin:0 0 24px;}
+  #gateForm{display:flex;flex-direction:column;gap:12px;}
+  #gatePwd{font-family:"Inter",sans-serif;font-size:15px;color:#fff;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.16);border-radius:10px;padding:13px 15px;outline:none;transition:border-color .18s,background .18s;}
+  #gatePwd:focus{border-color:var(--rubrik);background:rgba(255,255,255,.08);}
+  #gatePwd::placeholder{color:rgba(255,255,255,.4);}
+  #gateBtn{font-family:"Archivo",sans-serif;font-weight:700;font-size:14px;letter-spacing:.01em;color:#fff;background:linear-gradient(135deg,var(--amd),var(--rubrik));border:none;border-radius:10px;padding:13px 15px;cursor:pointer;transition:filter .18s,transform .06s;}
+  #gateBtn:hover{filter:brightness(1.08);} #gateBtn:active{transform:translateY(1px);}
+  .gate-err{font-family:"JetBrains Mono",monospace;font-size:11.5px;color:#ff7a7f;letter-spacing:.02em;min-height:14px;}
+  .gate-foot{margin-top:22px;font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.04em;color:rgba(255,255,255,.4);}
 </style>
 </head>
-<body>
+<body class="locked">
+
+<div id="gate" role="dialog" aria-modal="true" aria-label="Password required">
+  <div class="hero-grid"></div>
+  <div class="gate-card">
+    <div class="gate-lock">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect x="4.5" y="10.5" width="15" height="10" rx="2.2" fill="#fff"/>
+        <path d="M7.5 10.5V8a4.5 4.5 0 0 1 9 0v2.5" stroke="#fff" stroke-width="2" fill="none"/>
+        <circle cx="12" cy="15" r="1.6" fill="#0B0B0C"/>
+      </svg>
+    </div>
+    <div class="gate-eyebrow">Confidential</div>
+    <h1 class="gate-h">AMD &times; Rubrik — Partnership Review</h1>
+    <p class="gate-s">This document is password protected. Enter the password to continue.</p>
+    <form id="gateForm" autocomplete="off">
+      <input id="gatePwd" type="password" placeholder="Password" autocomplete="current-password" aria-label="Password" />
+      <button id="gateBtn" type="submit">Unlock</button>
+      <div class="gate-err" id="gateErr" role="alert"></div>
+    </form>
+    <div class="gate-foot">For partnership-review purposes only</div>
+  </div>
+</div>
 
 <header class="bar on-dark">
   <div class="wrap bar-inner">
@@ -532,7 +573,7 @@
       <div>
         <div class="num">01 — PARTNERSHIP AT A GLANCE</div>
         <h2 style="margin-top:10px;">Highlights &amp; open opportunities</h2>
-        <p class="sec-lead">Ten wins delivered, eight expansion plays live — led by the 4 PB engineering tape-replacement and identity resilience. Every card is a talking point — select one for the business impact, the underlying entitlement, and the supporting evidence from the account.</p>
+        <p class="sec-lead">Nine wins delivered, eight expansion plays live — led by the 4 PB engineering tape-replacement and identity resilience. Every card is a talking point — select one for the business impact, the underlying entitlement, and the supporting evidence from the account.</p>
       </div>
       <div class="filter" role="group" aria-label="Filter highlights">
         <button class="pill" data-f="all" aria-pressed="true">All</button>
@@ -653,7 +694,7 @@
           <div class="cap-note">Portable entitlement that can flex across protected workloads.</div>
         </div>
 
-        <div class="cap-group-h second">Cyber recovery · on-prem RSC-P / Scale · 3-year phased ramp · Feb 2025 → Feb 2028</div>
+        <div class="cap-group-h second">Cyber recovery · Rubrik Security Cloud + Scale on third-party hardware · 3-year phased ramp · Feb 2025 → Feb 2028</div>
         <div class="cap">
           <div class="cap-top"><div class="cap-name">Rubrik Scale Foundation Edition<span>Phased ramp · per usable BETB</span></div><div class="cap-val">6,840<small>BETB by Feb '28</small></div></div>
           <div class="ramp" aria-label="Foundation Edition phased capacity ramp">
@@ -675,7 +716,7 @@
           <div class="cap-note">Same phased model — 1,650 BETB at launch ramping to the contracted 3,300 BETB. Year-1 capacity (2,475) is active today.</div>
         </div>
         <div class="cap">
-          <div class="cap-top"><div class="cap-name">RSC-P Private — Foundation (TPH)<span>Rubrik Security Cloud, third-party hardware</span></div><div class="cap-val">540<small>BETB</small></div></div>
+          <div class="cap-top"><div class="cap-name">RSC-P Private — China in-country (TPH)<span>Rubrik Security Cloud Private · customer-hosted for China data-sovereignty</span></div><div class="cap-val">540<small>BETB</small></div></div>
           <div class="bar win"><i style="width:100%"></i></div>
           <div class="cap-note">360 BETB at launch + 180 BETB in the Feb 2026 expansion · plus a dedicated Customer Experience Manager.</div>
         </div>
@@ -718,9 +759,6 @@
     </div>
     <div class="dnote" style="margin-top:16px;border-left-color:#9a9aa0;background:var(--paper-3);">
       <b>China is a deliberate reporting exception.</b> Suzhou, Shanghai and Beijing (≈77 TB scoped) run RSC-P — Rubrik Security Cloud Private — deployed on in-country VMs to satisfy Chinese data-sovereignty law, which prohibits SaaS-based management from outside China. Protected capacity there is not centrally reported, so it sits outside the figures above as an ongoing exception — meaning the true protected total is <b>higher</b> than the ~3.1 PB shown.
-    </div>
-    <div class="dnote" style="margin-top:16px;border-left-color:var(--line-strong);">
-      <b>One to validate:</b> San Jose currently reports below its discovery scope by Used Size (209 TB vs 422 TB). Worth confirming whether the original scope included planned growth, or whether workloads have since been consolidated or moved to the Colorado DR target.
     </div>
   </div>
 </section>
@@ -1043,10 +1081,10 @@ const ITEMS = [
 
   { id:'cyber', type:'win', tag:'Win delivered · Feb 2025',
     title:'Zero-trust cyber recovery, live',
-    line:'RSC-P / Scale running globally on third-party hardware.',
+    line:'Rubrik Security Cloud + Scale, running on third-party hardware.',
     spec:'Live Feb 2025',
-    impact:'In February 2025 AMD launched a zero-trust Cyber Recovery solution on Rubrik Security Cloud — Private (RSC-P) with Rubrik Scale on third-party hardware — moving from "backup" to provable, rapid recovery from cyber events.',
-    specs:['Zero-trust architecture','RSC-P + Scale · TPH','3,060 BETB at launch'],
+    impact:'In February 2025 AMD launched a zero-trust Cyber Recovery solution on Rubrik Security Cloud (RSC) with Rubrik Scale on third-party hardware — moving from "backup" to provable, rapid recovery from cyber events.',
+    specs:['Zero-trust architecture','Rubrik Security Cloud + Scale · TPH','3,060 BETB at launch'],
     proof:'Now a 14-cluster, 67-node fleet protecting ~3.4 PB across the Americas, EMEA, and APAC.' },
 
   { id:'fleet', type:'win', tag:'Win delivered · global scale',
@@ -1069,17 +1107,9 @@ const ITEMS = [
     title:'Deployed on track & on budget',
     line:'12 of 13 sites live — only Dublin remains.',
     spec:'92% services used',
-    impact:'Rubrik Professional Services (PM Kevin Goodrich) has bootstrapped 12 of 13 physical cluster sites and completed RSC configuration, RSC-P for the China clusters, Azure cloud deployment, and VMware recovery validation — reported on track and on budget as of June 3, 2026.',
+    impact:'Rubrik Professional Services (PM Kevin Goodrich) has bootstrapped 12 of 13 physical cluster sites and completed RSC configuration, China cluster deployment, Azure cloud deployment, and VMware recovery validation — reported on track and on budget as of June 3, 2026.',
     specs:['12 / 13 sites bootstrapped','205 / 224 services hours (92%)','Dublin (Ireland) remaining'],
     proof:'Project AMD-81300 status: On track. The final site — Dublin, Ireland — is due on or before Sep 30, 2026.' },
-
-  { id:'expand', type:'win', tag:'Win delivered · land & expand',
-    title:'Cyber recovery footprint grew 50%',
-    line:'The platform expanded a year after launch.',
-    spec:'+1,530 BETB · Feb 2026',
-    impact:'A year after go-live, AMD expanded the cyber recovery footprint by roughly 50% — Scale Foundation grew from 3,060 to 4,590 BETB, with matching add-on growth — the clearest signal that the platform is delivering.',
-    specs:['Scale Foundation 3,060 → 4,590 BETB','Enterprise add-on +825 BETB','RSC-P Private +180 BETB'],
-    proof:'Expansion landed in Feb 2026 on a Feb 2028 term — runway already secured.' },
 
   { id:'influence', type:'win', tag:'Win delivered · product influence',
     title:'AMD helps shape the roadmap',
@@ -1426,6 +1456,55 @@ document.addEventListener('keydown',e=>{
 });
 let start=''; try{ start=(location.hash||'').replace('#',''); }catch(_){}
 showPage(ORDER.includes(start)?start:'overview',false);
+</script>
+<script>
+/* ---- Password gate (stores only a SHA-256 hash of the password) ---- */
+(function(){
+  /* SHA-256 of the password (UTF-8). To change the password, replace this hash.
+     Generate a new hash by running this in a browser console:
+       crypto.subtle.digest('SHA-256', new TextEncoder().encode('YOUR PASSWORD'))
+         .then(b=>console.log([...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')))
+  */
+  var PW_HASH = "0138fe0584c5c700b87a669c683684b878df3f7422f547085b5dbc2efa0ee73e";
+
+  function sha256(ascii){
+    function rr(v,a){return (v>>>a)|(v<<(32-a));}
+    var mp=Math.pow,mw=mp(2,32),i,j,result='',words=[],bitLen=ascii.length*8;
+    var hash=sha256.h=sha256.h||[],k=sha256.k=sha256.k||[],pc=k.length,comp={};
+    for(var c=2;pc<64;c++){if(!comp[c]){for(i=0;i<313;i+=c){comp[i]=c;}hash[pc]=(mp(c,.5)*mw)|0;k[pc++]=(mp(c,1/3)*mw)|0;}}
+    ascii+='\x80';while(ascii.length%64-56)ascii+='\x00';
+    for(i=0;i<ascii.length;i++){j=ascii.charCodeAt(i);if(j>>8)return;words[i>>2]|=j<<((3-i)%4)*8;}
+    words[words.length]=((bitLen/mw)|0);words[words.length]=(bitLen);
+    for(j=0;j<words.length;){
+      var w=words.slice(j,j+=16),oldHash=hash;hash=hash.slice(0,8);
+      for(i=0;i<64;i++){
+        var w15=w[i-15],w2=w[i-2],a=hash[0],e=hash[4];
+        var t1=hash[7]+(rr(e,6)^rr(e,11)^rr(e,25))+((e&hash[5])^((~e)&hash[6]))+k[i]
+          +(w[i]=i<16?w[i]:(w[i-16]+(rr(w15,7)^rr(w15,18)^(w15>>>3))+w[i-7]+(rr(w2,17)^rr(w2,19)^(w2>>>10)))|0);
+        var t2=(rr(a,2)^rr(a,13)^rr(a,22))+((a&hash[1])^(a&hash[2])^(hash[1]&hash[2]));
+        hash=[(t1+t2)|0].concat(hash);hash[4]=(hash[4]+t1)|0;
+      }
+      for(i=0;i<8;i++){hash[i]=(hash[i]+oldHash[i])|0;}
+    }
+    for(i=0;i<8;i++){for(j=3;j+1;j--){var b=(hash[i]>>(j*8))&255;result+=((b<16)?0:'')+b.toString(16);}}
+    return result;
+  }
+  function utf8(s){return unescape(encodeURIComponent(s));}
+
+  var gate=document.getElementById('gate'),form=document.getElementById('gateForm'),
+      pwd=document.getElementById('gatePwd'),err=document.getElementById('gateErr');
+  if(!gate||!form){return;}
+  function unlock(){document.body.classList.remove('locked');gate.style.display='none';
+    try{var ev=new Event('resize');window.dispatchEvent(ev);}catch(_){}}
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var ok=false;
+    try{ok=(sha256(utf8(pwd.value))===PW_HASH);}catch(_){ok=false;}
+    if(ok){unlock();}
+    else{err.textContent='Incorrect password. Please try again.';pwd.value='';pwd.focus();}
+  });
+  try{pwd.focus();}catch(_){}
+})();
 </script>
 </body>
 </html>
