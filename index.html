@@ -1,0 +1,1324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AMD × Rubrik — Partnership Overview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --ink:#0B0B0C; --ink-soft:#15151A; --ink-2:#1E1E24;
+    --paper:#FFFFFF; --paper-2:#F5F5F4; --paper-3:#ECECEA;
+    --line:rgba(11,11,12,.12); --line-strong:rgba(11,11,12,.22); --line-dark:rgba(255,255,255,.14);
+    --muted:#6A6A70; --muted-d:rgba(255,255,255,.62);
+    --amd:#ED1C24; --amd-deep:#C20E16; --amd-tint:rgba(237,28,36,.10);
+    --rubrik:#00B388; --rubrik-deep:#00845F; --rubrik-tint:rgba(0,179,136,.12);
+    --r:14px; --maxw:1180px; --ease:cubic-bezier(.22,.61,.36,1);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:"Inter",system-ui,sans-serif;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto;}*{animation-duration:.001ms !important;transition-duration:.001ms !important;}}
+  h1,h2,h3,h4{font-family:"Archivo",sans-serif;margin:0;letter-spacing:-.02em;line-height:1.04;}
+  .mono{font-family:"JetBrains Mono",monospace;}
+  .eyebrow{font-family:"JetBrains Mono",monospace;font-size:11.5px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);}
+  a{color:inherit;}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px;}
+
+  /* Wordmarks */
+  .lockup{display:flex;align-items:center;gap:14px;}
+  .wm-amd{font-family:"Archivo",sans-serif;font-weight:900;letter-spacing:-.04em;font-size:25px;line-height:1;}
+  .wm-rubrik{font-family:"Archivo",sans-serif;font-weight:700;letter-spacing:.02em;font-size:19px;line-height:1;display:inline-flex;align-items:center;gap:8px;}
+  .wm-rubrik .dot{width:11px;height:11px;background:var(--rubrik);border-radius:3px;transform:rotate(45deg);}
+  .lock-x{font-family:"Archivo";font-weight:500;font-size:16px;opacity:.4;}
+  .on-dark .wm-amd,.on-dark .wm-rubrik{color:#fff;}
+
+  /* Top bar */
+  header.bar{position:sticky;top:0;z-index:60;background:rgba(11,11,12,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--line-dark);}
+  .bar-inner{display:flex;align-items:center;gap:22px;height:64px;}
+  .lockup{background:none;border:none;cursor:pointer;padding:0;flex:none;}
+  nav.anchors{display:flex;gap:4px;align-items:center;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;margin-left:auto;}
+  nav.anchors::-webkit-scrollbar{display:none;}
+  nav.anchors button{font-family:"JetBrains Mono",monospace;font-size:11.5px;letter-spacing:.04em;background:none;border:none;cursor:pointer;color:var(--muted-d);text-transform:uppercase;padding:7px 11px;border-radius:7px;white-space:nowrap;transition:color .18s,background .18s;}
+  nav.anchors button:hover{color:#fff;background:rgba(255,255,255,.06);}
+  nav.anchors button.on{color:#fff;background:var(--amd);}
+  .bar .wm-amd{font-size:21px;} .bar .wm-rubrik{font-size:15px;}
+
+  /* Paged book system */
+  #book{min-height:calc(100vh - 64px);}
+  .page{display:none;}
+  .page.active{display:block;animation:pageTurn .5s var(--ease);}
+  @keyframes pageTurn{from{opacity:0;transform:perspective(1800px) rotateY(7deg) translateX(46px);}to{opacity:1;transform:none;}}
+  .pager{position:fixed;bottom:22px;right:24px;z-index:70;display:flex;align-items:center;gap:4px;background:rgba(11,11,12,.92);backdrop-filter:blur(10px);border:1px solid var(--line-dark);border-radius:999px;padding:5px 7px;box-shadow:0 14px 34px -16px rgba(0,0,0,.6);}
+  .pg-btn{width:34px;height:34px;border-radius:50%;border:none;background:none;color:#fff;font-size:20px;line-height:1;cursor:pointer;transition:background .18s;display:grid;place-items:center;}
+  .pg-btn:hover{background:rgba(255,255,255,.12);}
+  .pg-btn:disabled{opacity:.3;cursor:default;}
+  .pg-count{font-family:"JetBrains Mono";font-size:12px;color:var(--muted-d);padding:0 8px;letter-spacing:.06em;}
+  .hero-cta{margin-top:30px;font-family:"JetBrains Mono";font-size:11.5px;letter-spacing:.04em;color:rgba(255,255,255,.5);text-transform:uppercase;}
+
+  /* Hero */
+  .hero{background:var(--ink);color:#fff;position:relative;overflow:hidden;min-height:calc(100vh - 64px);}
+  .hero::before{content:"";position:absolute;inset:0;background:radial-gradient(70% 120% at 88% -10%,rgba(237,28,36,.20),transparent 60%),radial-gradient(60% 110% at 0% 120%,rgba(0,179,136,.16),transparent 55%);pointer-events:none;}
+  .hero-grid{position:absolute;inset:0;opacity:.5;pointer-events:none;background-image:linear-gradient(var(--line-dark) 1px,transparent 1px),linear-gradient(90deg,var(--line-dark) 1px,transparent 1px);background-size:64px 64px;mask-image:linear-gradient(180deg,#000,transparent 78%);}
+  .hero-inner{position:relative;padding:74px 0 56px;}
+  .hero .eyebrow{color:rgba(255,255,255,.66);}
+  .hero h1{font-size:clamp(38px,6.2vw,76px);font-weight:900;margin:20px 0 0;max-width:16ch;}
+  .hero h1 .accent{color:var(--amd);}
+  .hero .sub{margin:22px 0 0;max-width:62ch;font-size:18px;color:rgba(255,255,255,.78);}
+  .thesis{margin-top:30px;padding:16px 20px;border-left:3px solid var(--rubrik);background:rgba(255,255,255,.04);border-radius:0 10px 10px 0;max-width:76ch;font-size:15.5px;color:rgba(255,255,255,.86);}
+  .thesis b{color:#fff;font-weight:600;}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-top:46px;background:var(--line-dark);border:1px solid var(--line-dark);border-radius:12px;overflow:hidden;}
+  .stat{background:var(--ink);padding:22px 20px;}
+  .stat .k{font-family:"Archivo";font-weight:800;font-size:30px;letter-spacing:-.03em;}
+  .stat .k .u{font-family:"JetBrains Mono";font-weight:500;font-size:14px;color:var(--muted-d);margin-left:3px;letter-spacing:0;}
+  .stat .l{font-family:"JetBrains Mono";font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted-d);margin-top:8px;line-height:1.5;}
+  .stat .k::before{content:"";display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:9px;vertical-align:middle;transform:translateY(-3px);}
+  .stat.win .k::before{background:var(--amd);} .stat.opp .k::before{background:var(--rubrik);}
+
+  /* Section scaffold */
+  section{padding:78px 0;}
+  .sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:34px;flex-wrap:wrap;}
+  .sec-head>div:first-child{flex:1 1 100%;min-width:0;}
+  .sec-head h2{font-size:clamp(26px,3.4vw,40px);font-weight:800;}
+  .sec-head .num{font-family:"JetBrains Mono";font-size:12px;color:var(--muted);letter-spacing:.12em;}
+  .sec-lead{max-width:none;color:var(--muted);font-size:16px;margin-top:10px;}
+
+  .filter{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+  .pill{font-family:"JetBrains Mono";font-size:12px;letter-spacing:.04em;border:1px solid var(--line-strong);background:var(--paper);color:var(--ink);padding:8px 14px;border-radius:999px;cursor:pointer;transition:.18s var(--ease);display:inline-flex;align-items:center;gap:8px;}
+  .pill .swatch{width:9px;height:9px;border-radius:2px;}
+  .pill[data-f="win"] .swatch{background:var(--amd);} .pill[data-f="opp"] .swatch{background:var(--rubrik);}
+  .pill:hover{border-color:var(--ink);}
+  .pill[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink);}
+
+  /* Overview grid */
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+  .tile{position:relative;text-align:left;cursor:pointer;border:1px solid var(--line);background:var(--paper);border-radius:var(--r);padding:22px 22px 20px;transition:transform .22s var(--ease),box-shadow .22s var(--ease),border-color .22s var(--ease);display:flex;flex-direction:column;gap:13px;min-height:194px;font:inherit;color:inherit;}
+  .tile::before{content:"";position:absolute;left:0;top:18px;bottom:18px;width:3px;border-radius:3px;}
+  .tile[data-type="win"]::before{background:var(--amd);} .tile[data-type="opp"]::before{background:var(--rubrik);}
+  .tile:hover{transform:translateY(-4px);box-shadow:0 18px 40px -22px rgba(11,11,12,.4);}
+  .tile[data-type="win"]:hover{border-color:rgba(237,28,36,.5);} .tile[data-type="opp"]:hover{border-color:rgba(0,179,136,.5);}
+  .tile.prio{border-color:rgba(0,179,136,.55);box-shadow:0 0 0 1px rgba(0,179,136,.25) inset;}
+  .t-prio{position:absolute;top:-9px;right:14px;font-family:"JetBrains Mono";font-size:9.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#fff;background:var(--rubrik-deep);border-radius:999px;padding:4px 10px;box-shadow:0 6px 16px -6px rgba(0,179,136,.7);}
+  .tile:focus-visible{outline:3px solid var(--ink);outline-offset:3px;}
+  .tile.hide{display:none;}
+  .t-tag{display:inline-flex;align-items:center;gap:7px;font-family:"JetBrains Mono";font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:500;}
+  .t-tag .s{width:8px;height:8px;border-radius:2px;}
+  .tile[data-type="win"] .t-tag{color:var(--amd-deep);} .tile[data-type="win"] .t-tag .s{background:var(--amd);}
+  .tile[data-type="opp"] .t-tag{color:var(--rubrik-deep);} .tile[data-type="opp"] .t-tag .s{background:var(--rubrik);}
+  .t-title{font-family:"Archivo";font-weight:700;font-size:19.5px;letter-spacing:-.02em;line-height:1.1;}
+  .t-line{color:var(--muted);font-size:13.5px;margin-top:-3px;}
+  .t-foot{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:10px;}
+  .t-spec{font-family:"JetBrains Mono";font-size:11.5px;color:var(--ink);background:var(--paper-2);border:1px solid var(--line);border-radius:7px;padding:4px 9px;letter-spacing:.02em;}
+  .t-open{font-family:"JetBrains Mono";font-size:11px;color:var(--muted);letter-spacing:.06em;display:inline-flex;align-items:center;gap:6px;}
+  .t-open svg{width:13px;height:13px;}
+
+  /* Entitlements */
+  .cap-wrap{display:grid;grid-template-columns:1.15fr .85fr;gap:42px;align-items:start;}
+  .cap-group-h{font-family:"JetBrains Mono";font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 16px;display:flex;align-items:center;gap:10px;}
+  .cap-group-h::after{content:"";flex:1;height:1px;background:var(--line);}
+  .cap-group-h.second{margin-top:36px;}
+  .cap{border-bottom:1px solid var(--line);padding-bottom:18px;margin-bottom:18px;}
+  .cap:last-child{border-bottom:none;margin-bottom:0;}
+  .cap-top{display:flex;justify-content:space-between;align-items:baseline;gap:14px;margin-bottom:10px;}
+  .cap-name{font-family:"Archivo";font-weight:700;font-size:16px;}
+  .cap-name span{font-family:"JetBrains Mono";font-weight:400;font-size:11px;color:var(--muted);display:block;letter-spacing:.04em;text-transform:uppercase;margin-top:3px;}
+  .cap-val{font-family:"JetBrains Mono";font-weight:700;font-size:14.5px;white-space:nowrap;text-align:right;}
+  .cap-val small{display:block;font-weight:400;font-size:10.5px;color:var(--muted);margin-top:2px;}
+  .bar{height:11px;border-radius:6px;background:var(--paper-3);overflow:hidden;position:relative;}
+  .bar i{position:absolute;left:0;top:0;bottom:0;border-radius:6px;display:block;}
+  .bar.win i{background:linear-gradient(90deg,var(--amd-deep),var(--amd));}
+  .bar.opp i{background:linear-gradient(90deg,var(--rubrik-deep),var(--rubrik));}
+  .bar.seed{border:1px dashed var(--rubrik-deep);background:var(--rubrik-tint);}
+  .bar.seed i{background:transparent;}
+  .cap-note{font-family:"JetBrains Mono";font-size:11px;color:var(--muted);margin-top:9px;letter-spacing:.01em;}
+  .cap-aside{background:var(--ink);color:#fff;border-radius:var(--r);padding:28px;position:sticky;top:90px;}
+  .cap-aside .big{font-family:"Archivo";font-weight:900;font-size:54px;letter-spacing:-.04em;color:var(--rubrik);line-height:1;}
+  .cap-aside .big .u{font-family:"JetBrains Mono";font-weight:500;font-size:18px;color:#fff;margin-left:4px;}
+  .cap-aside .biglabel{font-family:"JetBrains Mono";font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted-d);margin-top:8px;}
+  .cap-aside h3{font-size:18px;font-weight:800;margin:22px 0 10px;}
+  .cap-aside p{color:rgba(255,255,255,.74);font-size:14px;margin:0 0 14px;}
+  .renew{margin-top:18px;border:1px solid var(--line-dark);border-radius:10px;padding:13px 15px;display:flex;align-items:center;gap:12px;}
+  .renew .d{font-family:"Archivo";font-weight:800;font-size:18px;color:var(--amd);white-space:nowrap;}
+  .renew .t{font-family:"JetBrains Mono";font-size:11px;color:var(--muted-d);line-height:1.5;letter-spacing:.02em;}
+
+  /* Fleet */
+  .fleet{background:var(--paper-2);}
+  .fleet-stats{display:flex;gap:42px;flex-wrap:wrap;margin-bottom:30px;}
+  .fleet-stats .fs .n{font-family:"Archivo";font-weight:900;font-size:42px;letter-spacing:-.03em;line-height:1;}
+  .fleet-stats .fs .n .u{font-family:"JetBrains Mono";font-weight:500;font-size:16px;color:var(--muted);margin-left:3px;}
+  .fleet-stats .fs .lab{font-family:"JetBrains Mono";font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-top:8px;}
+  .fleet-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+  .fc{background:var(--paper);border:1px solid var(--line);border-radius:11px;padding:14px 15px;}
+  .fc-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:3px;}
+  .fc-code{font-family:"JetBrains Mono";font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.04em;}
+  .fc-code .ast{color:var(--amd);font-weight:700;font-size:11px;margin-left:1px;cursor:help;}
+  .fc-nodes{font-family:"JetBrains Mono";font-size:10.5px;color:var(--muted);}
+  .fc-city{font-size:12px;color:var(--muted);min-height:16px;margin-bottom:9px;}
+  .fc-bar{height:7px;border-radius:5px;background:var(--paper-3);overflow:hidden;margin-bottom:6px;display:flex;}
+  .fc-bar i{display:block;height:100%;}
+  .fc-pct{font-family:"JetBrains Mono";font-size:11px;font-weight:500;}
+  .fleet-legend{display:flex;gap:18px;flex-wrap:wrap;margin-top:22px;font-family:"JetBrains Mono";font-size:11px;color:var(--muted);letter-spacing:.02em;}
+  .fleet-legend span{display:inline-flex;align-items:center;gap:7px;}
+  .fleet-legend i{width:11px;height:11px;border-radius:3px;display:inline-block;}
+
+  /* Discovery -> Delivered */
+  .assume{display:flex;flex-wrap:wrap;gap:0;border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-bottom:30px;}
+  .ai{flex:1;min-width:160px;padding:16px 20px;border-right:1px solid var(--line);}
+  .ai:last-child{border-right:none;}
+  .ak{display:block;font-family:"JetBrains Mono";font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+  .av{font-family:"Archivo";font-weight:700;font-size:15px;letter-spacing:-.01em;}
+  @media (max-width:680px){.ai{flex:1 1 100%;border-right:none;border-bottom:1px solid var(--line);}.ai:last-child{border-bottom:none;}}
+  .deliv-top{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:38px;}
+  .dcard{border:1px solid var(--line);border-radius:12px;padding:20px;background:var(--paper);}
+  .dcard.hero{background:var(--ink);color:#fff;border-color:var(--ink);}
+  .dcard .dn{font-family:"Archivo";font-weight:900;font-size:34px;letter-spacing:-.03em;line-height:1;}
+  .dcard .dn .u{font-family:"JetBrains Mono";font-weight:500;font-size:15px;color:var(--muted);margin-left:3px;}
+  .dcard.hero .dn{color:var(--rubrik);} .dcard.hero .dn .u{color:#fff;}
+  .dcard .dl{font-family:"JetBrains Mono";font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-top:10px;line-height:1.5;}
+  .dcard.hero .dl{color:var(--muted-d);}
+  .recon{display:flex;flex-direction:column;gap:0;}
+  .rrow{display:grid;grid-template-columns:148px 1fr 112px;gap:18px;align-items:center;padding:15px 0;border-bottom:1px solid var(--line);}
+  .rrow:last-child{border-bottom:none;}
+  .rrow.spot{background:var(--amd-tint);margin:0 -16px;padding:15px 16px;border-radius:10px;border-bottom:none;}
+  .rrow.spot.teal{background:var(--rubrik-tint);}
+  .rrow.excp .rtrack{background:repeating-linear-gradient(45deg,var(--paper-2) 0 7px,var(--paper-3) 7px 14px);}
+  .rexcp{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-family:"JetBrains Mono";font-size:11px;color:var(--muted);letter-spacing:.02em;}
+  .rname{font-family:"Archivo";font-weight:700;font-size:15px;}
+  .rname span{display:block;font-family:"JetBrains Mono";font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:2px;font-weight:400;}
+  .rbarwrap{position:relative;}
+  .rtrack{height:24px;background:var(--paper-2);border-radius:7px;position:relative;overflow:visible;border:1px solid var(--line);}
+  .rfill{position:absolute;top:0;bottom:0;}
+  .rfill.teal{left:0;border-radius:6px 0 0 6px;background:linear-gradient(90deg,var(--rubrik-deep),var(--rubrik));}
+  .rfill.over{border-radius:0 6px 6px 0;background:linear-gradient(90deg,var(--amd),var(--amd-deep));}
+  .rplan{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--ink);z-index:4;}
+  .rplan::after{content:"";}
+  .rplan.lbl::after{content:"100% = scope";position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-family:"JetBrains Mono";font-size:9px;color:var(--ink);white-space:nowrap;font-weight:700;letter-spacing:.02em;}
+  .rpctlabel{position:absolute;top:50%;transform:translate(-100%,-50%);padding-right:8px;font-family:"JetBrains Mono";font-size:11px;font-weight:700;color:#fff;white-space:nowrap;z-index:5;text-shadow:0 1px 2px rgba(0,0,0,.25);}
+  .rpct{text-align:right;}
+  .rpct .rp{font-family:"JetBrains Mono";font-size:12px;font-weight:700;}
+  .rpct .rscope-l{font-family:"JetBrains Mono";font-size:9.5px;color:var(--muted);margin-top:3px;letter-spacing:.01em;}
+  .deliv-legend{display:flex;gap:22px;flex-wrap:wrap;margin:30px 0 30px;font-family:"JetBrains Mono";font-size:11px;color:var(--muted);align-items:center;}
+  .deliv-legend span{display:inline-flex;align-items:center;gap:7px;}
+  .deliv-legend i{width:14px;height:10px;border-radius:2px;display:inline-block;}
+  .deliv-legend i.planline{width:2px;height:15px;background:var(--ink);border-radius:1px;}
+  .deliv-foot{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:8px;}
+  .dnote{border-left:3px solid var(--line-strong);padding:12px 16px;background:var(--paper-2);border-radius:0 8px 8px 0;font-size:13.5px;color:#333;}
+  .dnote b{font-weight:600;}
+  @media (max-width:860px){.deliv-top{grid-template-columns:1fr 1fr;}.rrow{grid-template-columns:104px 1fr 92px;gap:10px;}.deliv-foot{grid-template-columns:1fr;}}
+
+  /* Protected by workload type */
+  .wl-splitbar{height:44px;border-radius:10px;overflow:hidden;display:flex;border:1px solid var(--line);}
+  .wl-splitbar .seg{display:flex;align-items:center;padding:0 16px;font-family:"JetBrains Mono";font-size:12px;font-weight:700;color:#fff;white-space:nowrap;}
+  .wl-splitbar .dc{background:var(--ink);}
+  .wl-splitbar .cl{background:var(--rubrik);}
+  .wl-splitlabels{display:flex;justify-content:space-between;margin:12px 0 36px;font-family:"JetBrains Mono";font-size:12px;}
+  .wl-splitlabels b{font-family:"Archivo";font-weight:700;}
+  .wl-cols{display:block;}
+  .wl-zone{margin-bottom:30px;}
+  .wl-zone:last-of-type{margin-bottom:0;}
+  .wl-colhead{display:flex;align-items:baseline;justify-content:space-between;border-bottom:2px solid var(--ink);padding-bottom:10px;margin-bottom:8px;}
+  .wl-colhead h3{font-size:19px;font-weight:800;}
+  .wl-colhead .tot{font-family:"JetBrains Mono";font-weight:700;font-size:15px;}
+  .wl-rowgrid{display:grid;grid-template-columns:1fr 1fr;column-gap:44px;}
+  .wlrow{display:grid;grid-template-columns:158px 1fr 58px;gap:12px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line);}
+  .wlrow:last-child{border-bottom:1px solid var(--line);}
+  .wlname{font-size:12.5px;font-weight:600;line-height:1.15;}
+  .wlname span{display:block;font-family:"JetBrains Mono";font-size:9px;color:var(--muted);margin-top:2px;text-transform:uppercase;letter-spacing:.05em;font-weight:400;}
+  .wltrack{height:13px;background:var(--paper-2);border-radius:5px;overflow:hidden;}
+  .wltrack i{display:block;height:100%;border-radius:5px;}
+  .wlval{font-family:"JetBrains Mono";font-size:12px;font-weight:700;text-align:right;}
+  .wlval small{font-weight:400;color:var(--muted);font-size:10px;}
+  @media (max-width:860px){.wl-rowgrid{grid-template-columns:1fr;column-gap:0;}.wlrow{grid-template-columns:140px 1fr 56px;gap:10px;}}
+
+  /* Why Rubrik */
+  .why-proof{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:34px;}
+  .wp{border:1px solid var(--line);border-radius:12px;padding:20px;}
+  .wp .wpn{font-family:"Archivo";font-weight:900;font-size:34px;letter-spacing:-.03em;line-height:1;color:var(--amd);}
+  .wp .wpn span{font-family:"JetBrains Mono";font-weight:500;font-size:14px;color:var(--ink);margin-left:3px;letter-spacing:0;}
+  .wp .wpl{font-size:13px;color:var(--muted);margin-top:11px;line-height:1.45;}
+  .why-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:30px;}
+  .why-card{border:1px solid var(--line);border-radius:14px;padding:24px;position:relative;}
+  .why-card.act{border-top:4px solid var(--muted);}
+  .why-card.rbk{border-top:4px solid var(--amd);background:var(--amd-tint);}
+  .why-card.now{border-top:4px solid var(--rubrik);}
+  .wc-tag{font-family:"JetBrains Mono";font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:500;}
+  .why-card.rbk .wc-tag{color:var(--amd-deep);} .why-card.now .wc-tag{color:var(--rubrik-deep);}
+  .why-card h3{font-size:19px;font-weight:800;margin:8px 0 14px;letter-spacing:-.01em;}
+  .why-card ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:11px;}
+  .why-card li{font-size:13.5px;line-height:1.5;color:#2a2a30;padding-left:18px;position:relative;}
+  .why-card li::before{content:"";position:absolute;left:0;top:8px;width:7px;height:7px;border-radius:2px;background:var(--muted);}
+  .why-card.rbk li::before{background:var(--amd);} .why-card.now li::before{background:var(--rubrik);}
+  .why-card li b{font-weight:700;}
+  .why-vs{display:grid;grid-template-columns:1fr auto 1fr;gap:24px;align-items:center;border:1px solid var(--line);border-radius:14px;padding:26px;}
+  .vs-col .vs-h{font-family:"Archivo";font-weight:800;font-size:16px;margin-bottom:14px;padding-bottom:10px;border-bottom:2px solid var(--line);}
+  .vs-col.rubrik .vs-h{color:var(--rubrik-deep);border-bottom-color:var(--rubrik);}
+  .vs-col.legacy .vs-h{color:var(--muted);}
+  .vs-col ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px;}
+  .vs-col li{font-size:13px;line-height:1.4;color:#333;padding-left:16px;position:relative;}
+  .vs-col.legacy li::before{content:"✕";position:absolute;left:0;color:var(--muted);font-size:11px;}
+  .vs-col.rubrik li::before{content:"✓";position:absolute;left:0;color:var(--rubrik);font-weight:700;font-size:12px;}
+  .vs-arrow{font-size:30px;color:var(--muted);}
+  @media (max-width:860px){.why-proof{grid-template-columns:1fr 1fr;}.why-cols{grid-template-columns:1fr;}.why-vs{grid-template-columns:1fr;}.vs-arrow{transform:rotate(90deg);}}
+
+  /* Scale License phased ramp */
+  .ramp{display:flex;flex-direction:column;gap:6px;margin:6px 0 12px;}
+  .ramp-row{display:grid;grid-template-columns:92px 1fr 84px;gap:11px;align-items:center;}
+  .ramp-row .rl{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.03em;text-transform:uppercase;color:var(--muted);}
+  .ramp-row .rtrack{height:13px;background:var(--paper-3);border-radius:5px;overflow:hidden;}
+  .ramp-row .rtrack i{display:block;height:100%;border-radius:5px;background:rgba(0,179,136,.42);transition:width .7s var(--ease);}
+  .ramp-row.now .rtrack i{background:var(--rubrik);}
+  .ramp-row.tgt .rtrack i{background:var(--rubrik-deep);}
+  .ramp-row .rv{font-family:"JetBrains Mono";font-size:11.5px;font-weight:700;text-align:right;display:flex;align-items:center;justify-content:flex-end;gap:6px;}
+  .ramp-row.tgt .rv{color:var(--rubrik-deep);}
+  .ramp-row .rv em{font-style:normal;font-size:8px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 5px;border-radius:4px;}
+  .ramp-row.now .rv em{background:var(--rubrik-tint);color:var(--rubrik-deep);}
+  .ramp-row.tgt .rv em{background:var(--amd-tint);color:var(--amd-deep);}
+
+  /* Deployment panel */
+  .deploy{border:1px solid var(--line);border-radius:14px;padding:24px 26px;margin-bottom:30px;background:var(--paper);}
+  .dep-head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:20px;flex-wrap:wrap;}
+  .dep-tag{font-family:"JetBrains Mono";font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);}
+  .dep-head h3{font-size:21px;font-weight:800;margin:7px 0 4px;letter-spacing:-.01em;}
+  .dep-head p{margin:0;font-size:13px;color:var(--muted);}
+  .dep-status{font-family:"JetBrains Mono";font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--rubrik-deep);background:var(--rubrik-tint);border:1px solid var(--rubrik);border-radius:999px;padding:7px 14px;white-space:nowrap;display:inline-flex;align-items:center;gap:8px;}
+  .dep-status::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--rubrik);}
+  .dep-bars{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-bottom:20px;}
+  .dm-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;gap:10px;}
+  .dm-top span{font-family:"JetBrains Mono";font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);}
+  .dm-top b{font-family:"JetBrains Mono";font-size:14px;font-weight:700;}
+  .dm-bar{height:10px;border-radius:6px;background:var(--paper-3);overflow:hidden;}
+  .dm-bar i{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,var(--rubrik-deep),var(--rubrik));}
+  .dep-remain{border-left:3px solid var(--amd);background:var(--amd-tint);border-radius:0 8px 8px 0;padding:12px 16px;font-size:13.5px;color:#4a1113;margin-bottom:18px;}
+  .dep-remain b{font-weight:700;}
+  .dep-done{display:flex;flex-wrap:wrap;gap:7px;}
+  .dep-chip{font-family:"JetBrains Mono";font-size:10.5px;letter-spacing:.02em;background:var(--paper-2);border:1px solid var(--line);border-radius:7px;padding:5px 10px;display:inline-flex;align-items:center;gap:6px;color:#333;}
+  .dep-chip::before{content:"✓";color:var(--rubrik);font-weight:700;}
+  @media (max-width:680px){.dep-bars{grid-template-columns:1fr;gap:16px;}}
+
+  /* Consolidation */
+  .consol{border-top:1px solid var(--line);}
+  .flow{display:grid;grid-template-columns:1fr auto 1.05fr;gap:30px;align-items:center;}
+  .stack{display:flex;flex-direction:column;gap:11px;}
+  .src{display:flex;align-items:center;gap:12px;background:var(--paper-2);border:1px solid var(--line);border-radius:10px;padding:13px 15px;}
+  .src .x{font-family:"JetBrains Mono";font-weight:700;color:var(--amd);font-size:15px;width:18px;text-align:center;}
+  .src .nm{font-weight:600;font-size:14.5px;}
+  .src .nm span{display:block;font-family:"JetBrains Mono";font-size:11px;color:var(--muted);font-weight:400;margin-top:2px;}
+  .arrow-col{display:flex;flex-direction:column;align-items:center;gap:10px;color:var(--muted);}
+  .arrow-col .a{font-size:30px;line-height:1;}
+  .arrow-col .lbl{font-family:"JetBrains Mono";font-size:10px;letter-spacing:.14em;text-transform:uppercase;text-align:center;max-width:96px;}
+  .platform{background:var(--ink);color:#fff;border-radius:16px;padding:30px;border:1px solid var(--ink);position:relative;overflow:hidden;}
+  .platform::after{content:"";position:absolute;inset:0;background:radial-gradient(80% 120% at 100% 0,rgba(0,179,136,.22),transparent 60%);pointer-events:none;}
+  .platform .pk{font-family:"JetBrains Mono";font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--rubrik);}
+  .platform h3{font-size:27px;font-weight:800;margin:10px 0 14px;position:relative;}
+  .platform ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;position:relative;}
+  .platform li{display:flex;align-items:center;gap:9px;font-size:13.5px;color:rgba(255,255,255,.86);}
+  .platform li::before{content:"";width:7px;height:7px;border-radius:2px;background:var(--rubrik);flex:none;}
+
+  /* Consolidation enhancements + Forward */
+  .cvs{display:grid;grid-template-columns:1fr auto 1fr;gap:24px;align-items:start;}
+  .cvs-col{display:flex;flex-direction:column;gap:10px;}
+  .cvs-h{font-family:"JetBrains Mono";font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;padding-bottom:9px;border-bottom:2px solid;margin-bottom:2px;}
+  .cvs-h.chal{color:var(--amd-deep);border-color:var(--amd);}
+  .cvs-h.sol{color:var(--rubrik-deep);border-color:var(--rubrik);}
+  .cvs-sub{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:12px 0 2px;}
+  .cvs-sub.teal{color:var(--rubrik-deep);}
+  .rect{display:flex;align-items:flex-start;gap:11px;border:1px solid var(--line);border-radius:11px;padding:13px 15px;background:var(--paper);transition:transform .18s var(--ease),box-shadow .18s var(--ease);}
+  .rect:hover{transform:translateY(-2px);box-shadow:0 12px 26px -18px rgba(11,11,12,.4);}
+  .rect.chal{border-left:3px solid var(--amd);}
+  .rect.sol{border-left:3px solid var(--rubrik);}
+  .rect.sol.hl{background:rgba(0,179,136,.10);border-color:rgba(0,179,136,.38);border-left-color:var(--rubrik);}
+  .rect .ic{flex:none;font-size:13px;font-weight:700;line-height:1.45;}
+  .rect.chal .ic{color:var(--amd);} .rect.sol .ic{color:var(--rubrik);} .rect .ic.ok{color:var(--rubrik);}
+  .rect .tx{display:flex;flex-direction:column;gap:2px;font-size:12px;color:var(--muted);line-height:1.4;}
+  .rect .tx b{font-size:13.5px;font-weight:700;letter-spacing:-.005em;color:var(--ink);}
+  .cvs-mid{align-self:center;display:flex;flex-direction:column;align-items:center;gap:8px;padding:0 2px;}
+  .cvs-arrow{font-size:30px;color:var(--rubrik);line-height:1;}
+  .cvs-cap{font-family:"JetBrains Mono";font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
+  @media (max-width:860px){.cvs{grid-template-columns:1fr;gap:14px;}.cvs-mid{flex-direction:row;}.cvs-arrow{transform:rotate(90deg);}}
+
+  /* Consolidation enhancements (legacy) */
+  .stack-label{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:16px 0 4px;padding-left:2px;}
+  .src.dormant{border-style:dashed;}
+  .src.dormant .nm span{color:var(--amd-deep);}
+  .platform .seclabel{font-family:"JetBrains Mono";font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--rubrik);margin:20px 0 10px;position:relative;}
+  .platform .hl-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:8px;position:relative;}
+  .platform .hl-list li{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:#fff;background:rgba(0,179,136,.18);border:1px solid rgba(0,179,136,.45);border-radius:8px;padding:8px 11px;}
+  .platform .hl-list li::before{content:"";width:7px;height:7px;border-radius:2px;background:var(--rubrik);box-shadow:0 0 7px var(--rubrik);flex:none;}
+  .forward{margin-top:42px;border-top:1px solid var(--line);padding-top:34px;}
+  .fwd-head h3{font-size:clamp(22px,3vw,30px);font-weight:800;margin:8px 0 8px;}
+  .fwd-eyebrow{font-family:"JetBrains Mono";font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--rubrik-deep);}
+  .fwd-head p{color:var(--muted);font-size:15px;max-width:64ch;margin:0 0 26px;}
+  .fwd-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+  .fwd{position:relative;border:1px solid var(--line);border-radius:14px;padding:22px;cursor:help;transition:transform .2s var(--ease),box-shadow .2s var(--ease),border-color .2s var(--ease);background:var(--paper);}
+  .fwd:hover,.fwd:focus{transform:translateY(-4px);box-shadow:0 18px 40px -22px rgba(11,11,12,.4);border-color:var(--rubrik);outline:none;}
+  .fwd-badge{display:inline-block;font-family:"JetBrains Mono";font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 9px;border-radius:999px;margin-bottom:14px;}
+  .fwd-badge.ga{background:var(--rubrik-tint);color:var(--rubrik-deep);border:1px solid var(--rubrik);}
+  .fwd-badge.pp{background:var(--amd-tint);color:var(--amd-deep);border:1px solid var(--amd);}
+  .fwd-badge.new{background:var(--paper-2);color:var(--ink);border:1px solid var(--line-strong);}
+  .fwd-badge.lic{background:var(--amd-tint);color:var(--amd-deep);border:1px solid var(--amd);}
+  .fwd-cards.two{grid-template-columns:repeat(2,1fr);max-width:680px;}
+  .fwd h4{font-size:18px;font-weight:800;margin:0 0 7px;letter-spacing:-.01em;}
+  .fwd>p{font-size:13px;color:var(--muted);margin:0;line-height:1.45;}
+  .fwd .tip{position:absolute;left:18px;right:18px;bottom:calc(100% + 12px);background:var(--ink);color:#fff;border-radius:12px;padding:16px 18px;font-size:13px;line-height:1.55;z-index:40;opacity:0;visibility:hidden;transform:translateY(7px);transition:.22s var(--ease);box-shadow:0 22px 48px -20px rgba(0,0,0,.6);}
+  .fwd .tip::after{content:"";position:absolute;top:100%;left:30px;border:8px solid transparent;border-top-color:var(--ink);}
+  .fwd .tip b{color:var(--rubrik);font-weight:600;}
+  .fwd:hover .tip,.fwd:focus .tip,.fwd:focus-within .tip{opacity:1;visibility:visible;transform:none;}
+  @media (max-width:860px){.fwd-cards{grid-template-columns:1fr;}.platform .hl-list{grid-template-columns:1fr;}.fwd .tip{position:static;opacity:1;visibility:visible;transform:none;margin-top:14px;box-shadow:none;}.fwd .tip::after{display:none;}}
+
+  /* Roadmap */
+  .road{position:relative;display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin-top:20px;}
+  .road::before{content:"";position:absolute;left:0;right:0;top:34px;height:2px;background:var(--line-strong);}
+  .stop{position:relative;padding:0 16px 0 0;}
+  .stop .dot{width:18px;height:18px;border-radius:50%;background:var(--paper);border:3px solid var(--ink);position:relative;z-index:2;margin-bottom:26px;}
+  .stop[data-k="win"] .dot{border-color:var(--amd);} .stop[data-k="opp"] .dot{border-color:var(--rubrik);}
+  .stop[data-k="now"] .dot{background:var(--ink);border-color:var(--ink);box-shadow:0 0 0 5px rgba(11,11,12,.12);}
+  .stop .when{font-family:"JetBrains Mono";font-weight:700;font-size:12.5px;letter-spacing:.03em;}
+  .stop[data-k="win"] .when{color:var(--amd-deep);} .stop[data-k="opp"] .when{color:var(--rubrik-deep);}
+  .stop .h{font-family:"Archivo";font-weight:700;font-size:15.5px;margin:8px 0 7px;letter-spacing:-.01em;}
+  .stop p{font-size:12.5px;color:var(--muted);margin:0;padding-right:8px;}
+
+  /* Drawer */
+  .scrim{position:fixed;inset:0;background:rgba(11,11,12,.5);backdrop-filter:blur(3px);opacity:0;visibility:hidden;transition:.28s var(--ease);z-index:80;}
+  .scrim.open{opacity:1;visibility:visible;}
+  .drawer{position:fixed;top:0;right:0;height:100%;width:min(560px,94vw);background:var(--paper);z-index:90;transform:translateX(100%);transition:transform .34s var(--ease);display:flex;flex-direction:column;box-shadow:-30px 0 60px -30px rgba(0,0,0,.5);}
+  .drawer.open{transform:translateX(0);}
+  .dr-top{padding:26px 30px 22px;border-bottom:1px solid var(--line);position:relative;}
+  .dr-top .accentbar{position:absolute;left:0;top:0;bottom:0;width:5px;}
+  .dr-top.win .accentbar{background:var(--amd);} .dr-top.opp .accentbar{background:var(--rubrik);}
+  .dr-tag{font-family:"JetBrains Mono";font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:500;}
+  .dr-top.win .dr-tag{color:var(--amd-deep);} .dr-top.opp .dr-tag{color:var(--rubrik-deep);}
+  .dr-title{font-family:"Archivo";font-weight:800;font-size:26px;letter-spacing:-.025em;margin:10px 0 0;line-height:1.08;}
+  .dr-close{position:absolute;top:22px;right:24px;width:38px;height:38px;border-radius:9px;border:1px solid var(--line-strong);background:var(--paper);cursor:pointer;font-size:18px;line-height:1;color:var(--ink);transition:.18s;}
+  .dr-close:hover{background:var(--ink);color:#fff;border-color:var(--ink);}
+  .dr-body{padding:26px 30px 40px;overflow-y:auto;}
+  .dr-block{margin-bottom:24px;}
+  .dr-block .lab{font-family:"JetBrains Mono";font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:9px;display:flex;align-items:center;gap:8px;}
+  .dr-block .lab::before{content:"";width:14px;height:2px;background:var(--ink);}
+  .dr-block p{margin:0;font-size:15px;color:#26262b;line-height:1.6;}
+  .dr-specs{display:flex;flex-wrap:wrap;gap:8px;}
+  .chip{font-family:"JetBrains Mono";font-size:12px;background:var(--paper-2);border:1px solid var(--line);border-radius:8px;padding:7px 11px;}
+  .proof{border-left:3px solid var(--rubrik);background:var(--rubrik-tint);border-radius:0 8px 8px 0;padding:12px 15px;font-size:13.5px;color:#1c3b33;}
+  .proof.win{border-left-color:var(--amd);background:var(--amd-tint);color:#4a1113;}
+  .proof b{font-weight:600;}
+
+  footer{background:var(--ink);color:#fff;padding:46px 0 40px;}
+  .foot-inner{display:flex;justify-content:space-between;align-items:flex-start;gap:30px;flex-wrap:wrap;}
+  footer .note{max-width:56ch;color:var(--muted-d);font-size:12.5px;line-height:1.6;}
+  footer .conf{font-family:"JetBrains Mono";font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--amd);}
+
+  @media (max-width:960px){
+    .grid{grid-template-columns:repeat(2,1fr);}
+    .stats{grid-template-columns:repeat(2,1fr);}
+    .cap-wrap{grid-template-columns:1fr;} .cap-aside{position:static;}
+    .fleet-grid{grid-template-columns:repeat(2,1fr);}
+    .flow{grid-template-columns:1fr;gap:18px;} .arrow-col{flex-direction:row;} .arrow-col .a{transform:rotate(90deg);}
+    .road{grid-template-columns:1fr 1fr;gap:34px 0;} .road::before{display:none;}
+  }
+  @media (max-width:680px){
+    .bar-inner{gap:12px;}
+    nav.anchors button{padding:6px 8px;font-size:11px;}
+    .grid{grid-template-columns:1fr;} .stats{grid-template-columns:1fr 1fr;}
+    .fleet-grid{grid-template-columns:1fr;} .platform ul{grid-template-columns:1fr;}
+    .road{grid-template-columns:1fr;} section{padding:56px 0;}
+  }
+</style>
+</head>
+<body>
+
+<header class="bar on-dark">
+  <div class="wrap bar-inner">
+    <button class="lockup" data-nav="overview" aria-label="Go to overview">
+      <span class="wm-amd">AMD</span><span class="lock-x">×</span>
+      <span class="wm-rubrik"><span class="dot"></span>RUBRIK</span>
+    </button>
+    <nav class="anchors" id="pagenav">
+      <button data-nav="overview">Overview</button>
+      <button data-nav="highlights">Highlights</button>
+      <button data-nav="why">Why Rubrik</button>
+      <button data-nav="entitlements">Licenses</button>
+      <button data-nav="delivered">Delivered</button>
+      <button data-nav="workloads">Workloads</button>
+      <button data-nav="fleet">Fleet</button>
+      <button data-nav="consolidate">Consolidate</button>
+      <button data-nav="roadmap">Roadmap</button>
+    </nav>
+  </div>
+</header>
+
+<main id="book">
+
+<section class="page active hero on-dark" data-page="overview">
+  <div class="hero-grid"></div>
+  <div class="wrap hero-inner">
+    <div class="eyebrow">Strategic Partnership · Since 2023 · Status as of June 2026</div>
+    <h1>The AMD Cyber&nbsp;Resilience Journey, <span class="accent">built on Rubrik.</span></h1>
+    <p class="sub">From a NAS data-protection foundation to a zero-trust cyber recovery fleet running in 14 clusters worldwide — and a clear path to consolidate fragmented tooling onto a single security cloud.</p>
+    <div class="thesis">
+      <b>The thesis:</b> capacity seeded in 2023 was a deliberate runway. As AMD expands protection across engineering data, M365, identity, and SaaS, those workloads land on entitlements AMD already owns — <b>consolidating spend and collapsing tool complexity into Rubrik Security Cloud.</b>
+    </div>
+    <div class="stats">
+      <div class="stat win"><div class="k">1.3<span class="u">×</span></div><div class="l">Atlanta protects above its scope — at 68% capacity</div></div>
+      <div class="stat win"><div class="k">Feb<span class="u">'25</span></div><div class="l">Zero-trust cyber recovery live</div></div>
+      <div class="stat opp"><div class="k">3<span class="u">PB</span></div><div class="l">RCV archive seeded — 0% used, ready to activate</div></div>
+      <div class="stat opp"><div class="k">Nov<span class="u">'26</span></div><div class="l">Foundation renewal &amp; consolidation window</div></div>
+    </div>
+    <div class="hero-cta">Use the navigation above, the page arrows, or ← → keys to turn the pages.</div>
+  </div>
+</section>
+
+<section class="page" data-page="highlights" id="overview">
+
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="num">01 — PARTNERSHIP AT A GLANCE</div>
+        <h2 style="margin-top:10px;">Highlights &amp; open opportunities</h2>
+        <p class="sec-lead">Ten wins delivered, eight expansion plays live — led by the 4 PB engineering tape-replacement and identity resilience. Every card is a talking point — select one for the business impact, the underlying entitlement, and the supporting evidence from the account.</p>
+      </div>
+      <div class="filter" role="group" aria-label="Filter highlights">
+        <button class="pill" data-f="all" aria-pressed="true">All</button>
+        <button class="pill" data-f="win" aria-pressed="false"><span class="swatch"></span>Wins delivered</button>
+        <button class="pill" data-f="opp" aria-pressed="false"><span class="swatch"></span>Opportunities</button>
+      </div>
+    </div>
+    <div class="grid" id="grid"></div>
+  </div>
+</section>
+
+<section class="page" data-page="why" id="why">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="num">02 — WHY RUBRIK</div>
+        <h2 style="margin-top:10px;">The case that won the business.</h2>
+        <p class="sec-lead">From the December 2024 business justification: why act, why Rubrik, and why now — the argument that took AMD from a NAS-only footprint to a full zero-trust cyber recovery platform.</p>
+      </div>
+    </div>
+
+    <div class="why-proof">
+      <div class="wp"><div class="wpn">&lt;48<span>hrs</span></div><div class="wpl">Clean recovery from a cyber event — versus the weeks semiconductor attacks have historically taken</div></div>
+      <div class="wp"><div class="wpn">1,000+<span>VMs</span></div><div class="wpl">Recovered in under 20 minutes; database Live Mounts in under 10</div></div>
+      <div class="wp"><div class="wpn">25–40<span>%</span></div><div class="wpl">Storage cost reduction from content-aware data reduction</div></div>
+      <div class="wp"><div class="wpn">&lt;40<span>min</span></div><div class="wpl">To upgrade every component, any cluster size — 100% SaaS-managed</div></div>
+    </div>
+
+    <div class="why-cols">
+      <div class="why-card act">
+        <div class="wc-tag">Why do anything</div>
+        <h3>The cost of the status quo</h3>
+        <ul>
+          <li>A 21-day ransomware recovery could expose AMD to an estimated <b>$1.3B</b> loss; downtime alone risks ~$65M/day.</li>
+          <li>Legacy tooling is slow and blind — semiconductor recoveries have historically dragged on for weeks.</li>
+          <li>Fragmented recovery, threat-hunting and detection tools add time and complexity.</li>
+          <li>Infrastructure without MFA, immutability or network isolation invites breach, data loss and reinfection.</li>
+        </ul>
+      </div>
+      <div class="why-card rbk">
+        <div class="wc-tag">Why Rubrik</div>
+        <h3>One platform, built zero-trust</h3>
+        <ul>
+          <li>Unified, self-service protection across VMs, databases, NAS, cloud and SaaS — one interface.</li>
+          <li>Rapid recovery: 1,000+ VMs in under 20 minutes, database Live Mounts in under 10.</li>
+          <li>Native immutability with mandatory MFA, encryption, retention lock and two-person approval.</li>
+          <li>Detect, isolate and quarantine threats, then restore a known-clean copy — weeks to under 48 hours.</li>
+          <li>Content-aware data reduction cuts storage 25–40% and retires redundant tools.</li>
+        </ul>
+      </div>
+      <div class="why-card now">
+        <div class="wc-tag">Why now</div>
+        <h3>Aligned to AMD's strategy</h3>
+        <ul>
+          <li>Matches AMD's zero-trust framework — assume the adversary is already inside.</li>
+          <li>Protects the engineering and supply-chain apps that drive AMD's data-center growth.</li>
+          <li>One centralized platform that integrates with existing security tools and scales with the business.</li>
+          <li>Future-ready: advanced Active Directory recovery, user &amp; data intelligence, and a safer path to internal AI.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="why-vs">
+      <div class="vs-col legacy">
+        <div class="vs-h">Legacy backup (Commvault)</div>
+        <ul>
+          <li>Management server, media agents, proxies, indexing servers</li>
+          <li>Separately managed backup storage and lifecycle</li>
+          <li>Third-party bolt-ons for limited anomaly detection</li>
+          <li>Complex, multi-component upgrades</li>
+        </ul>
+      </div>
+      <div class="vs-arrow">→</div>
+      <div class="vs-col rubrik">
+        <div class="vs-h">Rubrik Security Cloud</div>
+        <ul>
+          <li>100% SaaS management, security-hardened appliances</li>
+          <li>No proxies or separate management servers</li>
+          <li>Threat analytics built natively into the platform</li>
+          <li>Every component upgrades together in under 40 minutes</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="page" data-page="entitlements" id="capacity" style="border-top:1px solid var(--line);">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="num">03 — LICENSE ENTITLEMENTS</div>
+        <h2 style="margin-top:10px;">What AMD already owns</h2>
+        <p class="sec-lead">The 2023 bundles created headroom on purpose. Expansion consumes capacity already on the books — the strongest argument for landing new workloads on Rubrik rather than net-new tools.</p>
+      </div>
+    </div>
+
+    <div class="cap-wrap">
+      <div>
+        <div class="cap-group-h">Cloud foundation · term Nov 2023 → Nov 2026</div>
+        <div class="cap">
+          <div class="cap-top"><div class="cap-name">NAS Cloud Direct — Enterprise Edition<span>Active · NetApp NAS protection</span></div><div class="cap-val">1 PB<small>1,000 FETB</small></div></div>
+          <div class="bar win"><i style="width:100%"></i></div>
+          <div class="cap-note">Foundational NAS protection deployed and in production.</div>
+        </div>
+        <div class="cap">
+          <div class="cap-top"><div class="cap-name">Rubrik Cloud Vault — Archive Tier<span>Seeded · 0% adopted as of Apr 2026</span></div><div class="cap-val">3 PB<small>0 PB used</small></div></div>
+          <div class="bar seed"><i style="width:0%"></i></div>
+          <div class="cap-note">Bundled in 2023 and untouched — the ~4 PB engineering expansion begins drawing it down.</div>
+        </div>
+        <div class="cap">
+          <div class="cap-top"><div class="cap-name">Rubrik Cloud Vault — Backup Tier<span>Active · 67% adopted</span></div><div class="cap-val">1.5 PB<small>1.0 PB used</small></div></div>
+          <div class="bar win"><i style="width:67%"></i></div>
+          <div class="cap-note">Immutable, air-gapped cloud target — already two-thirds consumed.</div>
+        </div>
+        <div class="cap">
+          <div class="cap-top"><div class="cap-name">Universal Cloud Licenses<span>Bundled · flexible workload coverage</span></div><div class="cap-val">125 TB<small>125 FETB</small></div></div>
+          <div class="bar win"><i style="width:100%"></i></div>
+          <div class="cap-note">Portable entitlement that can flex across protected workloads.</div>
+        </div>
+
+        <div class="cap-group-h second">Cyber recovery · on-prem RSC-P / Scale · 3-year phased ramp · Feb 2025 → Feb 2028</div>
+        <div class="cap">
+          <div class="cap-top"><div class="cap-name">Rubrik Scale Foundation Edition<span>Phased ramp · per usable BETB</span></div><div class="cap-val">6,840<small>BETB by Feb '28</small></div></div>
+          <div class="ramp" aria-label="Foundation Edition phased capacity ramp">
+            <div class="ramp-row"><span class="rl">Launch · Feb '25</span><div class="rtrack"><i style="width:45%"></i></div><span class="rv">3,060</span></div>
+            <div class="ramp-row now"><span class="rl">Year 1 · Feb '26</span><div class="rtrack"><i style="width:67%"></i></div><span class="rv">4,590<em>now</em></span></div>
+            <div class="ramp-row"><span class="rl">Year 2 · Feb '27</span><div class="rtrack"><i style="width:84%"></i></div><span class="rv">~5,715</span></div>
+            <div class="ramp-row tgt"><span class="rl">Year 3 · Feb '28</span><div class="rtrack"><i style="width:100%"></i></div><span class="rv">6,840<em>target</em></span></div>
+          </div>
+          <div class="cap-note">Phased in for cost savings — 3,060 BETB at launch, stepped up each anniversary toward the contracted 6,840 BETB. Year-1 capacity (4,590) is active today.</div>
+        </div>
+        <div class="cap">
+          <div class="cap-top"><div class="cap-name">Scale Enterprise Edition Add-on<span>Phased ramp · advanced capability</span></div><div class="cap-val">3,300<small>BETB by Feb '28</small></div></div>
+          <div class="ramp" aria-label="Enterprise Edition phased capacity ramp">
+            <div class="ramp-row"><span class="rl">Launch · Feb '25</span><div class="rtrack"><i style="width:50%"></i></div><span class="rv">1,650</span></div>
+            <div class="ramp-row now"><span class="rl">Year 1 · Feb '26</span><div class="rtrack"><i style="width:75%"></i></div><span class="rv">2,475<em>now</em></span></div>
+            <div class="ramp-row"><span class="rl">Year 2 · Feb '27</span><div class="rtrack"><i style="width:87%"></i></div><span class="rv">~2,888</span></div>
+            <div class="ramp-row tgt"><span class="rl">Year 3 · Feb '28</span><div class="rtrack"><i style="width:100%"></i></div><span class="rv">3,300<em>target</em></span></div>
+          </div>
+          <div class="cap-note">Same phased model — 1,650 BETB at launch ramping to the contracted 3,300 BETB. Year-1 capacity (2,475) is active today.</div>
+        </div>
+        <div class="cap">
+          <div class="cap-top"><div class="cap-name">RSC-P Private — Foundation (TPH)<span>Rubrik Security Cloud, third-party hardware</span></div><div class="cap-val">540<small>BETB</small></div></div>
+          <div class="bar win"><i style="width:100%"></i></div>
+          <div class="cap-note">360 BETB at launch + 180 BETB in the Feb 2026 expansion · plus a dedicated Customer Experience Manager.</div>
+        </div>
+      </div>
+
+      <aside class="cap-aside">
+        <div class="eyebrow" style="color:var(--rubrik);">Headroom already paid for</div>
+        <div class="big">0<span class="u">%</span></div>
+        <div class="biglabel">Adoption of the 3 PB RCV archive tier — pure runway, owned since 2023</div>
+        <p style="margin-top:20px;">This is the consolidation lever in one number: the engineering tape-replacement activates capacity AMD already bought, while an unlimited NAS Cloud Direct site license removes any capacity ceiling for that ~4 PB of engineering data.</p>
+        <h3>Why it matters</h3>
+        <p>Every workload moved onto these entitlements is a tool AMD can retire and a renewal AMD can consolidate.</p>
+        <div class="renew">
+          <div class="d">Nov 2026</div>
+          <div class="t">Cloud foundation entitlements come up for renewal — the natural moment to consolidate.</div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section class="page" data-page="delivered" id="delivered" style="border-top:1px solid var(--line);">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="num">04 — DISCOVERY → DELIVERED</div>
+        <h2 style="margin-top:10px;">Sized for growth, tracking to plan.</h2>
+        <p class="sec-lead">The February 2025 purchase sized each cluster for the discovery scope plus 10% annual growth, at 2.5:1 data reduction for a one-full-plus-30-day incremental-forever schedule. Sixteen months on, that's ~14% of built-in growth — and measured by Used Size, the dedicated clusters are protecting ~1.1× their growth-adjusted plan, with capacity headroom still intact.</p>
+      </div>
+    </div>
+
+    <div class="assume">
+      <div class="ai"><span class="ak">Purchased</span><span class="av">February 2025</span></div>
+      <div class="ai"><span class="ak">Growth assumed</span><span class="av">+10% / yr &nbsp;→&nbsp; ~14% to date</span></div>
+      <div class="ai"><span class="ak">Data reduction</span><span class="av">2.5 : 1</span></div>
+      <div class="ai"><span class="ak">Backup model</span><span class="av">1 full + 30-day incrementals, forever</span></div>
+    </div>
+
+    <div class="deliv-legend">
+      <span><i style="background:var(--rubrik)"></i>Protected within scope</span>
+      <span><i style="background:var(--amd)"></i>Protected above scope</span>
+      <span><i class="planline"></i>100% = capacity scoped for today (Feb '25 + 10%/yr growth)</span>
+    </div>
+
+    <div class="recon" id="recon"></div>
+
+    <div class="deliv-foot">
+      <div class="dnote"><b>Atlanta is the headline.</b> Scoped at 1,306 TB in Feb 2025 — ~1,488 TB once grown 10%/yr — it now protects 1,653 TB by Used Size, running ahead of plan, yet sits at just 68% capacity. Sized for growth, and absorbing it without a forced expansion.</div>
+      <div class="dnote"><b>Colorado is the North American DR target.</b> Every NA site replicates to it, so it was sized for the regional aggregate (~2,292 TB). As a DR replication target its objects report physical storage but not Used Size, so its protected volume can't be measured in this column — an expected reporting exception, not a gap in protection.</div>
+    </div>
+    <div class="dnote" style="margin-top:16px;border-left-color:var(--rubrik);">
+      <b>By design, not everything got hardware.</b> ~11 small satellite sites (≈84 TB) — Sunnyvale, Boston, Santa Clara, Orlando and others — were deemed too small for dedicated clusters and are protected over WAN. A further ~334 TB of Azure and GCP workloads are protected cloud-native, and the Dublin (Ireland) cluster (≈75 TB scoped) is the final deployment site, due Sep 2026.
+    </div>
+    <div class="dnote" style="margin-top:16px;border-left-color:#9a9aa0;background:var(--paper-3);">
+      <b>China is a deliberate reporting exception.</b> Suzhou, Shanghai and Beijing (≈77 TB scoped) run RSC-P — Rubrik Security Cloud Private — deployed on in-country VMs to satisfy Chinese data-sovereignty law, which prohibits SaaS-based management from outside China. Protected capacity there is not centrally reported, so it sits outside the figures above as an ongoing exception — meaning the true protected total is <b>higher</b> than the ~3.1 PB shown.
+    </div>
+    <div class="dnote" style="margin-top:16px;border-left-color:var(--line-strong);">
+      <b>One to validate:</b> San Jose currently reports below its discovery scope by Used Size (209 TB vs 422 TB). Worth confirming whether the original scope included planned growth, or whether workloads have since been consolidated or moved to the Colorado DR target.
+    </div>
+  </div>
+</section>
+
+<section class="page" data-page="workloads" id="workloads" style="border-top:1px solid var(--line);">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="num">05 — PROTECTED BY WORKLOAD TYPE</div>
+        <h2 style="margin-top:10px;">What Rubrik protects, by workload.</h2>
+        <p class="sec-lead">Every protected object, summed by Used Size and split into data-center vs. cloud workloads (Azure and Kubernetes run in the cloud). The estate is overwhelmingly on-prem today — which is exactly why the cloud and SaaS expansion plays have so much room to run.</p>
+      </div>
+    </div>
+
+    <div class="wl-splitbar">
+      <div class="seg dc" style="width:97%">Data center · 97%</div>
+      <div class="seg cl" style="width:3%"></div>
+    </div>
+    <div class="wl-splitlabels">
+      <span><b>Data center</b> &nbsp;~3,800 TB · 97%</span>
+      <span>~3,915 TB protected total</span>
+      <span style="color:var(--rubrik-deep)"><b>Cloud</b> &nbsp;~115 TB · 3%</span>
+    </div>
+
+    <div class="wl-cols">
+      <div class="wl-zone">
+        <div class="wl-colhead"><h3>Data center workloads</h3><span class="tot">~3,800 TB</span></div>
+        <div class="wl-rowgrid" id="wlDC"></div>
+      </div>
+      <div class="wl-zone">
+        <div class="wl-colhead"><h3>Cloud workloads</h3><span class="tot" style="color:var(--rubrik-deep)">~115 TB</span></div>
+        <div class="wl-rowgrid" id="wlCloud"></div>
+      </div>
+    </div>
+
+    <div class="dnote" style="margin-top:30px;border-left-color:#9a9aa0;background:var(--paper-3);">
+      <b>A few Used Size caveats.</b> OLVM virtual machines (442 objects) and Colorado's DR replicas report physical storage but not Used Size, so their volume reads as ~0 here — the true protected total is higher. Azure managed disks, Azure SQL and Azure storage accounts are protected at the Azure-VM level, so their data rolls up under Azure VM. NAS Cloud Direct is included here as a protected workload, though it stores to Rubrik Cloud Vault rather than the clusters.
+    </div>
+  </div>
+</section>
+
+<section class="page fleet" data-page="fleet" id="fleet">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="num">06 — GLOBAL CYBER RECOVERY FLEET</div>
+        <h2 style="margin-top:10px;">Resilience, standardized worldwide</h2>
+        <p class="sec-lead">Clusters were sized at 2.5:1 reduction with 10% annual growth built in, so utilization has room to run. But cluster capacity counts every object's local storage — including unprotected (no SLA) and <em>Do Not Protect</em> workloads. ~222 TB sits in that reclaimable bucket today: clean it up first, and expansion gets pushed further out. NAS Cloud Direct is excluded here — it writes to Rubrik Cloud Vault, not the cluster.</p>
+      </div>
+    </div>
+
+    <div class="deploy">
+      <div class="dep-head">
+        <div>
+          <span class="dep-tag">Deployment · Project AMD-81300 · as of Jun 3 2026</span>
+          <h3>Rolled out on track, on budget</h3>
+          <p>Led by Kevin Goodrich, Rubrik Professional Services · Jan 2025 → Sep 2026</p>
+        </div>
+        <span class="dep-status">On track</span>
+      </div>
+      <div class="dep-bars">
+        <div class="dep-metric">
+          <div class="dm-top"><span>Sites bootstrapped</span><b>12 / 13</b></div>
+          <div class="dm-bar"><i style="width:92%"></i></div>
+        </div>
+        <div class="dep-metric">
+          <div class="dm-top"><span>Services hours</span><b>205 / 224 · 92%</b></div>
+          <div class="dm-bar"><i style="width:92%"></i></div>
+        </div>
+        <div class="dep-metric">
+          <div class="dm-top"><span>Remote installs</span><b>12 / 13</b></div>
+          <div class="dm-bar"><i style="width:92%"></i></div>
+        </div>
+      </div>
+      <div class="dep-remain"><b>One objective remaining:</b> remote cluster bootstrapping, RSC registration and one-time configuration for the <b>Dublin (Ireland)</b> site — due on or before Sep 30, 2026.</div>
+      <div class="dep-done">
+        <span class="dep-chip">RSC configured &amp; reviewed</span>
+        <span class="dep-chip">12 physical sites bootstrapped</span>
+        <span class="dep-chip">RSC-P deployed for China clusters</span>
+        <span class="dep-chip">Azure CCES, Exocompute &amp; archive</span>
+        <span class="dep-chip">VMware recovery validated</span>
+      </div>
+    </div>
+
+    <div class="fleet-stats">
+      <div class="fs"><div class="n">14</div><div class="lab">Clusters · 67 nodes</div></div>
+      <div class="fs"><div class="n">~7.1<span class="u">PB</span></div><div class="lab">Deployed capacity</div></div>
+      <div class="fs"><div class="n">~222<span class="u">TB</span></div><div class="lab">Reclaimable · Do Not Protect residual</div></div>
+      <div class="fs"><div class="n">~712<span class="u">TB</span></div><div class="lab">NAS Cloud Direct → RCV (excluded)</div></div>
+      <div class="fs"><div class="n">1<span class="u">of 14</span></div><div class="lab">Clusters above 80%</div></div>
+    </div>
+
+    <div class="fleet-grid" id="fleetGrid"></div>
+
+    <div class="fleet-legend">
+      <span><i style="background:var(--ink)"></i>Protected (local storage)</span>
+      <span><i style="background:var(--amd)"></i>Reclaimable · Do Not Protect</span>
+      <span><i style="background:var(--paper-3);border:1px solid var(--line)"></i>Free headroom</span>
+      <span style="color:var(--amd-deep)"><b>*</b>&nbsp;Capacity excludes OLVM VMs — Used Size not reported</span>
+    </div>
+
+    <div class="dnote" style="margin-top:24px;border-left-color:var(--amd);">
+      <b>Markham is the clearest cleanup win.</b> At 84% it's the only cluster flagged for expansion — but ~39 TB of its footprint is unprotected and <em>Do Not Protect</em> residual. Reclaiming it drops utilization to ~73%, deferring a hardware expansion the customer doesn't yet need. The weekly notes already recommend exactly this cleanup. Across the fleet, essentially all of the ~222 TB reclaimable is Do-Not-Protect residual — discovered-but-never-protected objects hold almost no storage.
+    </div>
+    <div class="dnote" style="margin-top:16px;border-left-color:#9a9aa0;background:var(--paper-3);">
+      <b>A note on the capacity math.</b> Protected footprint here uses each object's <em>Local Storage</em> — cross-checked against the cluster's reported utilization in the CRM report, it reconciles within ~2% across all 14 clusters, whereas the <em>Used Size</em> column does not (it is unpopulated for Colorado and over- or under-states elsewhere). Suzhou/Shanghai run RSC-P in-country, so object-level detail isn't centrally reported.
+    </div>
+  </div>
+</section>
+
+<section class="page consol" data-page="consolidate" id="consolidate">
+  <div class="wrap">
+    <div class="sec-head">
+      <div style="width:100%;">
+        <div class="num">07 — THE CONSOLIDATION CASE</div>
+        <h2 style="margin-top:10px;">From many tools to one platform</h2>
+        <p class="sec-lead" style="max-width:none;">Each fragmented point solution is cost, contract, and operational surface area. The campaign collapses them into a single zero-trust platform — retiring the remaining Commvault footprint at APAC, and switching on the Enterprise-Edition security capabilities AMD already pays for but hasn't yet activated.</p>
+      </div>
+    </div>
+    <div class="cvs">
+      <div class="cvs-col">
+        <div class="cvs-h chal">The challenges today</div>
+        <div class="rect chal"><span class="ic">✕</span><span class="tx"><b>Commvault + tape</b>Legacy backup needing dedicated software, hardware &amp; tape</span></div>
+        <div class="rect chal"><span class="ic">✕</span><span class="tx"><b>Separate M365 backup</b>SaaS data on a standalone tool</span></div>
+        <div class="rect chal"><span class="ic">✕</span><span class="tx"><b>Standalone AD / Entra recovery</b>Identity recovered off-platform</span></div>
+        <div class="rect chal"><span class="ic">✕</span><span class="tx"><b>Separate Salesforce backup</b>CRM data on its own subscription</span></div>
+        <div class="rect chal"><span class="ic">✕</span><span class="tx"><b>JIRA Cloud</b>Important SaaS — not protected today</span></div>
+        <div class="rect chal"><span class="ic">✕</span><span class="tx"><b>VMware-bound protection</b>Migrating to OLVM, Hyper-V &amp; HPE VM Essentials</span></div>
+        <div class="rect chal"><span class="ic">✕</span><span class="tx"><b>Identity Recovery</b>Attribute Level Comparison and Orchestrated Forest Recovery</span></div>
+        <div class="rect chal"><span class="ic">✕</span><span class="tx"><b>Security Integrations</b>SIEM / SOAR - SecOps</span></div>
+        <div class="rect chal"><span class="ic">✕</span><span class="tx"><b>Cloud Native Snapshots</b>Azure, AWS &amp; GCP snapshot protection</span></div>
+        <div class="cvs-sub">Owned in Enterprise Edition</div>
+        <div class="rect chal"><span class="ic">✕</span><span class="tx"><b>Sensitive Data Discovery</b>Rubrik Licensed — not configured</span></div>
+        <div class="rect chal"><span class="ic">✕</span><span class="tx"><b>Orchestrated Cyber Recovery</b>Rubrik Licensed — not defined</span></div>
+      </div>
+      <div class="cvs-mid"><div class="cvs-arrow">→</div><div class="cvs-cap">Consolidate</div></div>
+      <div class="cvs-col">
+        <div class="cvs-h sol">Rubrik Security Cloud · one platform</div>
+        <div class="rect sol"><span class="ic">✓</span><span class="tx"><b>Cyber recovery</b>Immutable, rapid recovery from attack</span></div>
+        <div class="rect sol"><span class="ic">✓</span><span class="tx"><b>NAS &amp; unstructured data</b>NAS Cloud Direct at petabyte scale</span></div>
+        <div class="rect sol"><span class="ic">✓</span><span class="tx"><b>Microsoft 365</b>Exchange, SharePoint, OneDrive, Teams</span></div>
+        <div class="rect sol"><span class="ic">✓</span><span class="tx"><b>Identity resilience</b>AD, Entra ID &amp; Okta · attribute comparison &amp; orchestrated forest recovery</span></div>
+        <div class="rect sol"><span class="ic">✓</span><span class="tx"><b>Salesforce</b>CRM data &amp; metadata</span></div>
+        <div class="rect sol"><span class="ic">✓</span><span class="tx"><b>Databases &amp; virtual servers</b>SQL, Oracle, VMs &amp; more</span></div>
+        <div class="rect sol"><span class="ic">✓</span><span class="tx"><b>Immutable cloud vault</b>Air-gapped long-term archive</span></div>
+        <div class="rect sol"><span class="ic">✓</span><span class="tx"><b>Unified policy &amp; reporting</b>One console, one SLA model</span></div>
+        <div class="cvs-sub teal">Security suite — already in AMD's Enterprise licenses</div>
+        <div class="rect sol hl"><span class="ic">✓</span><span class="tx"><b>Turbo Threat Hunting</b>Find the last clean copy, fast</span></div>
+        <div class="rect sol hl"><span class="ic">✓</span><span class="tx"><b>Continuous Threat Monitoring</b>Detect malware &amp; anomalies early</span></div>
+        <div class="rect sol hl"><span class="ic">✓</span><span class="tx"><b>Data Security Posture</b>Discover &amp; classify sensitive data</span></div>
+        <div class="rect sol hl"><span class="ic">✓</span><span class="tx"><b>Orchestrated Cyber Recovery &amp; DR</b>Automated, tested recovery runbooks</span></div>
+      </div>
+    </div>
+
+    <div class="forward">
+      <div class="fwd-head">
+        <span class="fwd-eyebrow">Continued platform momentum · Rubrik Forward 2026</span>
+        <h3>The platform AMD invested in keeps growing</h3>
+        <p>Announced last week at Rubrik Forward — new capabilities that deepen the partnership's long-term value. Hover any card for the AMD business case.</p>
+      </div>
+      <div class="fwd-cards">
+        <div class="fwd" tabindex="0">
+          <div class="fwd-badge ga">Generally available</div>
+          <h4>Rubrik Agent Cloud</h4>
+          <p>Governance &amp; recovery for AI agents — Anthropic's Claude Code &amp; Cowork.</p>
+          <div class="tip">As AMD scales Claude Code and Cowork across engineering, Agent Cloud adds <b>observability, governance and "agent rewind."</b> A rogue or mistaken agent action against source code or IP can be reversed — every action auditable and attributable — and immutable codebase recovery protects AMD's crown-jewel IP when an agent outruns version control.</div>
+        </div>
+        <div class="fwd" tabindex="0">
+          <div class="fwd-badge pp">Private preview</div>
+          <h4>Autonomous Business Recovery</h4>
+          <p>Preemptive, full-stack recovery for cloud applications.</p>
+          <div class="tip">Preemptively builds and runs recovery plans for an <b>entire cloud application — the whole stack, not just its data.</b> Multi-step recoveries that once took weeks now run in minutes, extending AMD's sub-48-hour recovery standard to its cloud-hosted business services.</div>
+        </div>
+        <div class="fwd" tabindex="0">
+          <div class="fwd-badge new">Updated</div>
+          <h4>Annapurna</h4>
+          <p>AI-ready, governed layer for unstructured data.</p>
+          <div class="tip">Turns AMD's unstructured engineering and NAS data into an <b>AI-ready, governed layer</b> — auto-discovering and indexing files across silos with no copies and no new infrastructure, paired with data-security posture to keep sensitive IP out of AI outputs. The safe on-ramp to the internal-AI ambition in AMD's original 2024 business case.</div>
+        </div>
+      </div>
+
+      <div class="fwd-head" style="margin-top:34px;">
+        <span class="fwd-eyebrow" style="color:var(--amd-deep)">Protect AMD's innovation engine · not yet licensed at AMD</span>
+        <h3>DevOps source-code &amp; pipeline protection</h3>
+        <p>Rubrik DevOps Protection extends the platform to AMD's code repositories — the same crown-jewel IP theme as the engineering data, now for source. Hover for the business case.</p>
+      </div>
+      <div class="fwd-cards two">
+        <div class="fwd" tabindex="0">
+          <div class="fwd-badge lic">Available to license</div>
+          <h4>Azure DevOps protection</h4>
+          <p>Immutable, air-gapped backup of repos &amp; pipelines.</p>
+          <div class="tip">Enterprise-grade, SLA-driven, <b>immutable backups of AMD's Azure DevOps repositories and pipelines</b> — logically air-gapped so source code and IP can't be altered, encrypted, or deleted by an attacker. Granular recovery of individual repos or pipelines, even into a new org or tenant. Closes the gap native version history leaves, where deleted versions are kept only 28 days.</div>
+        </div>
+        <div class="fwd" tabindex="0">
+          <div class="fwd-badge lic">Available to license</div>
+          <h4>GitHub protection</h4>
+          <p>Policy-driven backup of repositories &amp; Actions.</p>
+          <div class="tip">A set-it-and-forget-it policy engine <b>auto-discovers and protects AMD's GitHub repositories, Actions and CI/CD pipelines</b> as immutable, logically air-gapped copies. Recover instantly from ransomware, a bad merge, or a flawed AI code commit — restoring repos to the same or a new tenant, with Retention Lock, RBAC and Quorum Authorization.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="page" data-page="roadmap" id="roadmap" style="border-top:1px solid var(--line);">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><div class="num">08 — JOURNEY &amp; ROADMAP</div><h2 style="margin-top:10px;">Where we've been, where we're going</h2></div>
+    </div>
+    <div class="road">
+      <div class="stop" data-k="win">
+        <div class="dot"></div><div class="when">NOV 2023</div>
+        <div class="h">Partnership foundation</div>
+        <p>NAS Cloud Direct Enterprise (1 PB), Cloud Vault archive (3 PB) &amp; backup (1.5 PB), plus 125 TB Universal Cloud Licenses — capacity seeded for the long game.</p>
+      </div>
+      <div class="stop" data-k="win">
+        <div class="dot"></div><div class="when">FEB 2025</div>
+        <div class="h">Zero-trust cyber recovery</div>
+        <p>Cyber Recovery on RSC-P / Scale goes live (3,060 BETB Scale Foundation), beginning the replacement of legacy Commvault.</p>
+      </div>
+      <div class="stop" data-k="win">
+        <div class="dot"></div><div class="when">FEB 2026</div>
+        <div class="h">Land &amp; expand</div>
+        <p>Cyber recovery footprint grows ~50% (+1,530 BETB Scale Foundation, +825 add-on) across a 14-cluster global fleet.</p>
+      </div>
+      <div class="stop" data-k="now">
+        <div class="dot"></div><div class="when" style="color:var(--ink);">NOW · 2026</div>
+        <div class="h">Expansion &amp; consolidation</div>
+        <p><b>Priority 1:</b> ~4 PB engineering tape replacement (NCD, Commvault exit by Sep 2026). <b>Priority 2:</b> identity resilience across AD, Entra ID &amp; Okta (44k users). Then M365, Salesforce, Universal Cloud License &amp; Rubrik Edge expansion. Deployment 12/13 sites live, Dublin (Ireland) the final site by Sep 2026.</p>
+      </div>
+      <div class="stop" data-k="opp">
+        <div class="dot"></div><div class="when">NOV 2026 → LATER</div>
+        <div class="h">Renewal &amp; HPE VM Essentials</div>
+        <p>Foundation renewal anchors consolidation; HPE VM Essentials support displaces the remaining APAC Commvault interim.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<div class="pager" id="pager">
+  <button class="pg-btn" id="pgPrev" aria-label="Previous page">‹</button>
+  <span class="pg-count"><span id="pgNow">1</span> / <span id="pgTot">9</span></span>
+  <button class="pg-btn" id="pgNext" aria-label="Next page">›</button>
+</div>
+
+<footer class="on-dark">
+  <div class="wrap foot-inner">
+    <div>
+      <div class="lockup" style="margin-bottom:16px;">
+        <span class="wm-amd">AMD</span><span class="lock-x">×</span>
+        <span class="wm-rubrik"><span class="dot"></span>RUBRIK</span>
+      </div>
+      <div class="conf">Confidential — for partnership review</div>
+    </div>
+    <p class="note">
+      Figures reflect the Active License Entitlements, the AMD CRM Report (Jun 5 2026), and the weekly Customer Resilience Manager notes (Jun 8 2026).
+      Wordmarks shown are styled placeholders — drop in official AMD and Rubrik brand SVGs before distribution.
+    </p>
+  </div>
+</footer>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drTitle">
+  <div class="dr-top" id="drTop">
+    <span class="accentbar"></span>
+    <div class="dr-tag" id="drTag">Highlight</div>
+    <h2 class="dr-title" id="drTitle">Title</h2>
+    <button class="dr-close" id="drClose" aria-label="Close">✕</button>
+  </div>
+  <div class="dr-body" id="drBody"></div>
+</aside>
+
+<script>
+/* ---- Content model — edit here to update talking points ---- */
+const ITEMS = [
+  { id:'partnership', type:'win', tag:'Win delivered · since 2023',
+    title:'Strategic partnership & white-glove team',
+    line:'A multi-year relationship with a dedicated success function.',
+    spec:'CEM + named team',
+    impact:'AMD selected Rubrik as a strategic data-protection partner in 2023 and the relationship is staffed for success — a dedicated Customer Experience Manager, a named account team, and a standing weekly Customer Resilience Manager cadence keep the program moving.',
+    specs:['Customer since 2023','Dedicated Customer Experience Manager','Weekly resilience cadence'],
+    proof:'Active program management spanning engineering, support, and product — captured in the weekly resilience manager notes.' },
+
+  { id:'marketshare', type:'win', tag:'Win · mutual growth',
+    title:'Partnership drives market-share growth',
+    line:'AMD EPYC silicon powers the platform Rubrik runs on.',
+    spec:'Dell + HPE · AMD EPYC',
+    impact:'The relationship runs both ways. Rubrik runs on AMD EPYC processors across its Dell and HPE appliance platforms, and roughly half of Rubrik\'s cloud-native protection runs on AMD instances in AWS, Azure and GCP. Every Rubrik cluster AMD deploys — and every node Rubrik sells to other enterprises — ships AMD silicon, turning a data-protection footprint into AMD market-share growth.',
+    specs:['Dell &amp; HPE appliances on AMD EPYC','~50% of cloud-native on AMD instances','Rubrik + AMD partners since 2018'],
+    proof:'AMD\'s own Rubrik Foundation capacity runs on Dell clusters — AMD is both customer and supplier on the same platform, with a Cisco AMD option expanding the ecosystem further.' },
+
+  { id:'ncd', type:'win', tag:'Win delivered',
+    title:'NAS Cloud Direct — Enterprise Edition',
+    line:'Production protection for unstructured NetApp NAS.',
+    spec:'1 PB active',
+    impact:'NAS Cloud Direct Enterprise Edition protects AMD\'s unstructured NetApp NAS estate at scale — the entry point that established Rubrik as the protection standard.',
+    specs:['1,000 FETB licensed','Enterprise Edition','NetApp NAS · production'],
+    proof:'Backup Tier already 67% consumed (1.0 of 1.5 PB) — the foundation is actively in use, not shelfware.' },
+
+  { id:'cyber', type:'win', tag:'Win delivered · Feb 2025',
+    title:'Zero-trust cyber recovery, live',
+    line:'RSC-P / Scale running globally on third-party hardware.',
+    spec:'Live Feb 2025',
+    impact:'In February 2025 AMD launched a zero-trust Cyber Recovery solution on Rubrik Security Cloud — Private (RSC-P) with Rubrik Scale on third-party hardware — moving from "backup" to provable, rapid recovery from cyber events.',
+    specs:['Zero-trust architecture','RSC-P + Scale · TPH','3,060 BETB at launch'],
+    proof:'Now a 14-cluster, 67-node fleet protecting ~3.4 PB across the Americas, EMEA, and APAC.' },
+
+  { id:'fleet', type:'win', tag:'Win delivered · global scale',
+    title:'14-cluster global resilience fleet',
+    line:'One platform across the Americas, EMEA, and APAC.',
+    spec:'14 clusters · 67 nodes',
+    impact:'A single zero-trust standard now runs in 14 clusters and 67 nodes worldwide — San Jose, Austin, Atlanta, Markham, Bangalore, Hyderabad, Suzhou, Taipei, Penang and more — with the Dublin (Ireland) cluster as the final site, due Sep 2026.',
+    specs:['~3.3 PB used (local storage)','~222 TB reclaimable','+Dublin: final site, Sep 2026'],
+    proof:'Uniform CDM 9.4.3 across the fleet, and capacity that reconciles to reporting — one operational model, one console, with cleanup headroom on tap.' },
+
+  { id:'delivered', type:'win', tag:'Win delivered · sizing',
+    title:'Sized for growth, tracking to plan',
+    line:'Protecting ~1.1× the growth-adjusted plan, with headroom.',
+    spec:'2.8 PB plan → 3.1 PB',
+    impact:'The Feb 2025 purchase sized each cluster for the discovery scope plus 10% annual growth, at 2.5:1 reduction for a 1-full-plus-30-day incremental-forever schedule. Sixteen months on (~14% growth), the dedicated clusters protect ~3.1 PB by Used Size against a ~2.8 PB plan — running ~1.1× ahead, with only one of fourteen clusters above 80%.',
+    specs:['2.5:1 · 10% annual growth','Protected ~3.1 PB (Used Size)','Only 1 of 14 clusters >80%'],
+    proof:'Atlanta proves it: grown plan ~1,488 TB, protecting 1,653 TB at just 68% capacity. And ~222 TB of Do-Not-Protect residual is reclaimable before any expansion is needed.' },
+
+  { id:'deploy', type:'win', tag:'Win delivered · deployment',
+    title:'Deployed on track & on budget',
+    line:'12 of 13 sites live — only Dublin remains.',
+    spec:'92% services used',
+    impact:'Rubrik Professional Services (PM Kevin Goodrich) has bootstrapped 12 of 13 physical cluster sites and completed RSC configuration, RSC-P for the China clusters, Azure cloud deployment, and VMware recovery validation — reported on track and on budget as of June 3, 2026.',
+    specs:['12 / 13 sites bootstrapped','205 / 224 services hours (92%)','Dublin (Ireland) remaining'],
+    proof:'Project AMD-81300 status: On track. The final site — Dublin, Ireland — is due on or before Sep 30, 2026.' },
+
+  { id:'expand', type:'win', tag:'Win delivered · land & expand',
+    title:'Cyber recovery footprint grew 50%',
+    line:'The platform expanded a year after launch.',
+    spec:'+1,530 BETB · Feb 2026',
+    impact:'A year after go-live, AMD expanded the cyber recovery footprint by roughly 50% — Scale Foundation grew from 3,060 to 4,590 BETB, with matching add-on growth — the clearest signal that the platform is delivering.',
+    specs:['Scale Foundation 3,060 → 4,590 BETB','Enterprise add-on +825 BETB','RSC-P Private +180 BETB'],
+    proof:'Expansion landed in Feb 2026 on a Feb 2028 term — runway already secured.' },
+
+  { id:'influence', type:'win', tag:'Win delivered · product influence',
+    title:'AMD helps shape the roadmap',
+    line:'Requests filed by AMD are shipping in the product.',
+    spec:'RFE delivered FY27Q1',
+    impact:'AMD is an engaged design partner: its request for more granular SLA Domain frequency and backup windows was delivered (FY27Q1), and open workshops with Rubrik product teams cover anomaly detection, GMSA, replication, and retention.',
+    specs:['SLA Domain RFE: delivered','Active PM workshops','Multiple AMD RFEs tracked'],
+    proof:'A backlog of AMD-authored RFEs — especially around Active Directory — shows deep, two-way engagement.' },
+
+  { id:'commvault', type:'win', tag:'Win in progress',
+    title:'Legacy Commvault displacement',
+    line:'Retiring legacy backup, region by region.',
+    spec:'In progress',
+    impact:'The cyber recovery program is actively displacing legacy Commvault — the original strategic goal of the partnership. The remaining footprint is an interim at APAC sites for HPE VM Essentials, which the roadmap item below is designed to capture.',
+    specs:['Legacy backup displaced','APAC interim remaining','HPE RFE closes the gap'],
+    proof:'A clear, finite finish line: one workload type at APAC stands between AMD and full consolidation off Commvault.' },
+
+  { id:'eng', type:'opp', prio:1, tag:'Priority 1 · active · engineering data',
+    title:'4 PB engineering data — tape replacement',
+    line:'Retire Commvault & tape for the "crown-jewel" NetApp data.',
+    spec:'~4 PB · #1 priority',
+    impact:'AMD\'s highest priority: replace Commvault and Atlanta tape archives with NAS Cloud Direct for ~4 PB of "crown-jewel" NetApp engineering data. That data is backed up via NDMP to tape today with a 15–20 day restore time; Rubrik brings recovery down to hours, with an 83% capacity reduction (quarterly 4 PB fulls → ~750 TB incremental-forever) and 20–25 year immutable, logically air-gapped retention — landing on the seeded 3 PB Cloud Vault archive that has sat at 0% since 2023.',
+    specs:['~4 PB · NCD site license','RTO: hours vs. 15–20 days','83% capacity reduction','Activates seeded 3 PB RCV archive'],
+    proof:'Proven in a March 2026 PoC: full backups under 40 hours, incrementals 14 min–3.5 hr, ~2.2–3.5 Gb/s over public internet. Commvault expires Sep 2026 (~$800K/yr today). Leads: Richard Payne & Pratik Patel.' },
+
+  { id:'identity', type:'opp', prio:2, tag:'Priority 2 · active · identity',
+    title:'Identity resilience — AD, Entra ID & Okta',
+    line:'44k users unprotected across the identity fabric.',
+    spec:'#2 priority · 44k users',
+    impact:'AMD\'s second priority: protect and recover the identity layer attackers hit first. 44,000 users are unprotected today across Active Directory, Entra ID and Okta. Rubrik adds AD Forest Recovery, Entra ID and Okta recovery, and multi-IdP protection — and at the Resilience tier, near-real-time threat detection, activity-log rollback, and CrowdStrike integration.',
+    specs:['AD · Entra ID · Okta','44k users unprotected','Forest Recovery + multi-IdP','+ CrowdStrike (Resilience tier)'],
+    proof:'Two paths proposed — Identity Recovery or full Identity Resilience. Sponsor: IAM Director Sanil Talpade. Active AD RFEs already filed (attribute backup, DC retention, GMSA).' },
+
+  { id:'edge', type:'opp', tag:'Opportunity · platform agility',
+    title:'Rubrik Edge (Virtual) on KVM',
+    line:'A virtual cluster to test new code & betas safely.',
+    spec:'KVM · non-prod',
+    impact:'License a virtual Rubrik Edge cluster on a KVM hypervisor as a dedicated test bed — validate new CDM/RSC code and join beta programs like HPE VM Essentials without ever applying beta code to AMD\'s production clusters.',
+    specs:['Virtual Edge appliance','Runs on KVM','Isolated from production','Beta & new-code validation'],
+    proof:'Keeps the production fleet on stable GA code while AMD stays an early design partner — the same posture behind AMD\'s existing HPE VM Essentials RFE.' },
+
+  { id:'cloudexp', type:'opp', tag:'Opportunity · cloud expansion',
+    title:'Universal Cloud License expansion',
+    line:'Protect more cloud data — Azure Blob, Data Lakes, AWS, GCP.',
+    spec:'Multi-cloud',
+    impact:'Expand AMD\'s Universal Cloud Licenses to cover a broader cloud estate — Azure Blob and Azure Data Lake storage, plus AWS and GCP workloads where applicable — bringing object and multi-cloud data under the same immutable, policy-driven protection as the rest of the platform.',
+    specs:['Azure Blob & Data Lakes','AWS & GCP workloads','Object & cloud-native data','One policy across clouds'],
+    proof:'Headroom is already there — today\'s Azure cloud cluster runs at just 2% of 280 TB, on infrastructure AMD already operates.' },
+
+  { id:'m365', type:'opp', tag:'Opportunity · SaaS',
+    title:'Microsoft 365 protection',
+    line:'Bring Exchange, SharePoint, OneDrive, Teams under one roof.',
+    spec:'M365 · 44k users',
+    impact:'Add Rubrik protection for Microsoft 365 so AMD\'s most-used collaboration data carries the same immutability and recovery guarantees as the rest of the estate — on the platform AMD already operates. 44,000 users are unprotected today.',
+    specs:['Exchange / SharePoint','OneDrive / Teams','44k users unprotected'],
+    proof:'Folds SaaS data into the existing console and the renewal, retiring any standalone M365 backup.' },
+
+  { id:'salesforce', type:'opp', tag:'Opportunity · SaaS',
+    title:'Salesforce protection',
+    line:'Backup and recovery for business-critical CRM data.',
+    spec:'SFDC · 10k users',
+    impact:'Protect AMD\'s Salesforce data and metadata against corruption, bad deployments, and accidental loss — a system of record without native point-in-time recovery. ~10,000 users are unprotected today.',
+    specs:['Data + metadata','Point-in-time recovery','10k users unprotected'],
+    proof:'Another SaaS island brought onto the platform, pre-empting a separate Salesforce backup subscription.' },
+
+  { id:'hpe', type:'opp', tag:'Opportunity · roadmap · later 2026',
+    title:'HPE VM Essentials support',
+    line:'Protect virtual servers migrating off VMware.',
+    spec:'RFE tracked · 2026',
+    impact:'A roadmap enhancement adds image-level support for HPE VM Essentials, giving AMD a protected landing zone for virtual servers as they move off VMware — and the path to retire the last Commvault interim at APAC.',
+    specs:['HPE VM Essentials','VMware migration','Displaces APAC Commvault'],
+    proof:'AMD\'s feedback is already with Rubrik product management; today only file-set agent backups exist, so the RFE is the unlock.' },
+
+  { id:'aiera', type:'opp', tag:'Opportunity · the AI era',
+    title:'AI era — AMD compute meets Rubrik Agent Cloud',
+    line:'Identify, monitor, govern &amp; roll back agentic actions at the speed of AMD.',
+    spec:'CPUs + GPUs · Agent Cloud',
+    impact:'As AMD scales agentic AI on its own EPYC CPUs and Instinct GPUs, Rubrik Agent Cloud governs it — identifying, monitoring, governing and rolling back agent actions in real time. AMD silicon supplies the speed; Rubrik supplies the guardrails and instant rewind — positioning AMD as both an AI-compute leader and a secure, governed adopter of agentic AI.',
+    specs:['Identify &amp; monitor agent activity','Govern with agentic guardrails','Roll back / rewind agent actions','At the speed of AMD compute'],
+    proof:'Rubrik Agent Cloud (GA) brings observability, governance and agent rewind to Claude Code &amp; Cowork — pairing Rubrik\'s control plane with AMD\'s CPU + GPU performance.' },
+];
+
+/* ---- Render tiles ---- */
+const grid=document.getElementById('grid');
+const arrowIcon='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+ITEMS.forEach(it=>{
+  const b=document.createElement('button');
+  b.className='tile'; b.dataset.type=it.type; b.dataset.id=it.id;
+  if(it.prio) b.classList.add('prio');
+  b.setAttribute('aria-haspopup','dialog');
+  b.innerHTML=`${it.prio?`<span class="t-prio">★ Priority ${it.prio}</span>`:''}<span class="t-tag"><span class="s"></span>${it.tag}</span>
+    <span class="t-title">${it.title}</span>
+    <span class="t-line">${it.line}</span>
+    <span class="t-foot"><span class="t-spec">${it.spec}</span><span class="t-open">Open ${arrowIcon}</span></span>`;
+  b.addEventListener('click',()=>openDrawer(it.id));
+  grid.appendChild(b);
+});
+
+/* ---- Render Discovery -> Delivered ---- */
+const RECON=[
+  {code:'atl',city:'Atlanta',scoped:1488,prot:1653,util:68,mult:'1.1×',spot:true},
+  {code:'xco',city:'Colorado · NA DR target',scoped:2611,util:48,exception:true,note:'DR replica — reports physical storage, not Used Size'},
+  {code:'mkm',city:'Markham',scoped:342,prot:371,util:84,mult:'1.1×'},
+  {code:'aus',city:'Austin',scoped:213,prot:302,util:61,mult:'1.4×'},
+  {code:'blr',city:'Bangalore',scoped:91,prot:232,util:77,mult:'2.6×'},
+  {code:'xsj',city:'San Jose',scoped:481,prot:209,util:24,mult:'0.4×'},
+  {code:'hyd',city:'Hyderabad',scoped:149,prot:182,util:72,mult:'1.2×'},
+  {code:'xap',city:'Singapore',scoped:40,prot:82,util:52,mult:'2.1×'},
+  {code:'tpe',city:'Taipei',scoped:18,prot:42,util:26,mult:'2.3×'},
+  {code:'png',city:'Penang',scoped:3,prot:26,util:26,mult:'10×'},
+  {code:'suz/xsh',city:'China · in-country',scoped:88,util:21,exception:true,note:'RSC-P in-country — protected capacity not centrally reported'},
+];
+const reconEl=document.getElementById('recon');
+const PMAX=300;                 // percent scale ceiling
+const planPos=100/PMAX*100;     // position of the 100% (scope) line ≈ 33.3%
+RECON.forEach((r,i)=>{
+  const d=document.createElement('div');
+  if(r.exception){
+    d.className='rrow excp';
+    d.innerHTML=`
+      <div class="rname">${r.city}<span>${r.code}</span></div>
+      <div class="rbarwrap">
+        <div class="rtrack">
+          <span class="rexcp">${r.note}</span>
+          <div class="rplan" style="left:${planPos}%"></div>
+        </div>
+      </div>
+      <div class="rpct">
+        <div class="rp" style="color:var(--muted)">n/a</div>
+        <div class="rscope-l">scope ~${r.scoped.toLocaleString()} TB</div>
+      </div>`;
+    reconEl.appendChild(d);
+    return;
+  }
+  const pct=Math.round(r.prot/r.scoped*100);
+  const cap=Math.min(pct,PMAX);
+  const seg1=Math.min(pct,100)/PMAX*100;        // within scope (teal)
+  const seg2=pct>100?(cap-100)/PMAX*100:0;      // above scope (red)
+  const over=pct>100;
+  d.className='rrow'+(r.spot?(r.teal?' spot teal':' spot'):'');
+  d.innerHTML=`
+    <div class="rname">${r.city}<span>${r.code}</span></div>
+    <div class="rbarwrap">
+      <div class="rtrack">
+        <div class="rfill teal" style="width:${seg1}%"></div>
+        ${over?`<div class="rfill over" style="left:${planPos}%;width:${seg2}%"></div>`:''}
+        <div class="rplan${i===0?' lbl':''}" style="left:${planPos}%"></div>
+        <span class="rpctlabel" style="left:${Math.max(seg1+seg2,9)}%">${pct}%${pct>PMAX?' ▸':''}</span>
+      </div>
+    </div>
+    <div class="rpct">
+      <div class="rp" style="color:${over?'var(--amd-deep)':'var(--rubrik-deep)'}">${pct}% of scope</div>
+      <div class="rscope-l">${r.prot.toLocaleString()} / ~${r.scoped.toLocaleString()} TB</div>
+    </div>`;
+  reconEl.appendChild(d);
+});
+
+
+/* ---- Render Protected by workload type ---- */
+const WL={
+  dc:[
+    {t:'vSphere VM',v:2377.9},
+    {t:'NAS Cloud Direct',v:674.3,sub:'stores to RCV'},
+    {t:'Hyper-V VM',v:374.4},
+    {t:'SQL Server DB',v:183.3},
+    {t:'Oracle DB',v:78.0},
+    {t:'Postgres Database Cluster',v:54.8},
+    {t:'Linux fileset',v:52.0},
+    {t:'Windows fileset',v:4.1},
+    {t:'MongoDB Database',v:0.6},
+    {t:'Active Directory Domain Controller',v:0.4},
+    {t:'Exchange Database',v:0.1},
+    {t:'MongoDB Source',v:0.0},
+    {t:'OLVM Virtual Machine',v:0.0,sub:'442 obj · Used Size n/r'},
+  ],
+  cloud:[
+    {t:'Azure VM',v:112.1},
+    {t:'K8s Protection Set',v:2.4},
+    {t:'Azure Managed Disk',v:0.0,sub:'via Azure VM'},
+    {t:'Azure SQL Database',v:0.0,sub:'via Azure VM'},
+    {t:'Azure Storage Account',v:0.0,sub:'via Azure VM'},
+  ]
+};
+const WLMAX=2377.9;
+function fmtTB(v){ if(v>=10) return Math.round(v).toLocaleString(); if(v>0) return v.toFixed(1); return '0'; }
+function renderWL(list,elId,color){
+  const el=document.getElementById(elId);
+  list.forEach(w=>{
+    const pct=Math.max(w.v/WLMAX*100, w.v>0?0.8:0);
+    const d=document.createElement('div'); d.className='wlrow';
+    d.innerHTML=`
+      <div class="wlname">${w.t}${w.sub?`<span>${w.sub}</span>`:''}</div>
+      <div class="wltrack"><i style="width:${pct}%;background:${color}"></i></div>
+      <div class="wlval">${fmtTB(w.v)} <small>TB</small></div>`;
+    el.appendChild(d);
+  });
+}
+renderWL(WL.dc,'wlDC','var(--ink)');
+renderWL(WL.cloud,'wlCloud','var(--rubrik)');
+
+const FLEET=[
+  {code:'mkm',city:'Markham',nodes:4,prot:260,reclaim:39,cap:357,olvm:true},
+  {code:'blr',city:'Bangalore',nodes:4,prot:88,reclaim:0,cap:115},
+  {code:'hyd',city:'Hyderabad',nodes:4,prot:82,reclaim:0,cap:115},
+  {code:'atl',city:'Atlanta',nodes:8,prot:930,reclaim:70,cap:1482},
+  {code:'aus',city:'Austin',nodes:4,prot:128,reclaim:18,cap:240},
+  {code:'xap',city:'Singapore',nodes:4,prot:253,reclaim:1,cap:489,olvm:true},
+  {code:'xco',city:'Colorado · NA DR',nodes:13,prot:1037,reclaim:91,cap:2408,olvm:true},
+  {code:'tpe',city:'Taipei',nodes:4,prot:14,reclaim:0,cap:53},
+  {code:'png',city:'Penang',nodes:4,prot:61,reclaim:1,cap:240},
+  {code:'xsj',city:'San Jose',nodes:5,prot:144,reclaim:2,cap:611,olvm:true},
+  {code:'suz',city:'Suzhou · in-country',nodes:4,util:21,flag:'RSC-P'},
+  {code:'srdc',city:'',nodes:4,util:21},
+  {code:'pdue',city:'',nodes:4,util:1},
+  {code:'atlvtst',city:'Atlanta · test',nodes:1,util:0},
+];
+const fleetGrid=document.getElementById('fleetGrid');
+function utilColor(u){ return u>=80?'var(--amd)':u>=50?'#9a9aa0':'var(--rubrik)'; }
+FLEET.forEach(c=>{
+  const d=document.createElement('div'); d.className='fc';
+  let bar,pct;
+  if(c.cap){
+    const util=Math.round((c.prot+c.reclaim)/c.cap*100);
+    const pp=c.prot/c.cap*100, rp=c.reclaim/c.cap*100;
+    bar=`<i style="width:${Math.max(pp,1)}%;background:var(--ink)"></i><i style="width:${rp}%;background:var(--amd)"></i>`;
+    pct=`<span style="color:${utilColor(util)}">${util}% used</span>${c.reclaim>=1?` <span style="color:var(--amd-deep)">· ${c.reclaim} TB reclaimable</span>`:''}`;
+  } else {
+    bar=`<i style="width:${Math.max(c.util,2)}%;background:var(--ink)"></i>`;
+    pct=`<span style="color:${utilColor(c.util)}">${c.util}% used</span>${c.flag?` <span style="color:var(--muted)">· ${c.flag}</span>`:''}`;
+  }
+  d.innerHTML=`<div class="fc-top"><span class="fc-code">${c.code}${c.olvm?'<sup class="ast" title="Capacity excludes OLVM VMs — Used Size not reported for OLVM">*</sup>':''}</span><span class="fc-nodes">${c.nodes} ${c.nodes===1?'node':'nodes'}</span></div>
+    <div class="fc-city">${c.city||'&nbsp;'}</div>
+    <div class="fc-bar">${bar}</div>
+    <div class="fc-pct">${pct}</div>`;
+  fleetGrid.appendChild(d);
+});
+
+/* ---- Filter ---- */
+const pills=document.querySelectorAll('.pill');
+pills.forEach(p=>p.addEventListener('click',()=>{
+  pills.forEach(x=>x.setAttribute('aria-pressed','false'));
+  p.setAttribute('aria-pressed','true');
+  const f=p.dataset.f;
+  document.querySelectorAll('.tile').forEach(t=>t.classList.toggle('hide',!(f==='all'||t.dataset.type===f)));
+}));
+
+/* ---- Drawer ---- */
+const scrim=document.getElementById('scrim'),drawer=document.getElementById('drawer'),
+  drTop=document.getElementById('drTop'),drTag=document.getElementById('drTag'),
+  drTitle=document.getElementById('drTitle'),drBody=document.getElementById('drBody');
+let lastFocus=null;
+function openDrawer(id){
+  const it=ITEMS.find(x=>x.id===id); if(!it) return;
+  lastFocus=document.activeElement;
+  drTop.className='dr-top '+it.type;
+  drTag.textContent=it.tag;
+  drTitle.innerHTML=it.title;
+  drBody.innerHTML=`
+    <div class="dr-block"><div class="lab">Business impact</div><p>${it.impact}</p></div>
+    <div class="dr-block"><div class="lab">Entitlement &amp; scope</div><div class="dr-specs">${it.specs.map(s=>`<span class="chip">${s}</span>`).join('')}</div></div>
+    <div class="dr-block"><div class="lab">Evidence from the account</div><div class="proof ${it.type}">${it.proof}</div></div>`;
+  scrim.classList.add('open'); drawer.classList.add('open');
+  document.body.style.overflow='hidden'; document.getElementById('drClose').focus();
+}
+function closeDrawer(){
+  scrim.classList.remove('open'); drawer.classList.remove('open');
+  document.body.style.overflow=''; if(lastFocus) lastFocus.focus();
+}
+document.getElementById('drClose').addEventListener('click',closeDrawer);
+scrim.addEventListener('click',closeDrawer);
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&drawer.classList.contains('open'))closeDrawer();});
+
+/* ---- Paged book navigation ---- */
+const ORDER=['overview','highlights','why','entitlements','delivered','workloads','fleet','consolidate','roadmap'];
+const navBtns=document.querySelectorAll('[data-nav]');
+const pgNow=document.getElementById('pgNow'), pgTot=document.getElementById('pgTot');
+const pgPrev=document.getElementById('pgPrev'), pgNext=document.getElementById('pgNext');
+pgTot.textContent=ORDER.length;
+let cur='overview';
+function showPage(key,push){
+  if(!ORDER.includes(key)) return;
+  cur=key;
+  document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.dataset.page===key));
+  navBtns.forEach(b=>b.classList.toggle('on',b.dataset.nav===key));
+  const idx=ORDER.indexOf(key);
+  pgNow.textContent=idx+1;
+  pgPrev.disabled=idx===0; pgNext.disabled=idx===ORDER.length-1;
+  window.scrollTo({top:0,behavior:'instant'});
+  if(push!==false){ try{ history.replaceState(null,'','#'+key); }catch(_){} }
+}
+navBtns.forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.nav)));
+pgPrev.addEventListener('click',()=>showPage(ORDER[Math.max(0,ORDER.indexOf(cur)-1)]));
+pgNext.addEventListener('click',()=>showPage(ORDER[Math.min(ORDER.length-1,ORDER.indexOf(cur)+1)]));
+document.addEventListener('keydown',e=>{
+  if(drawer.classList.contains('open')) return;
+  const tag=(e.target.tagName||'').toLowerCase();
+  if(tag==='input'||tag==='textarea') return;
+  if(e.key==='ArrowRight') showPage(ORDER[Math.min(ORDER.length-1,ORDER.indexOf(cur)+1)]);
+  if(e.key==='ArrowLeft') showPage(ORDER[Math.max(0,ORDER.indexOf(cur)-1)]);
+});
+let start=''; try{ start=(location.hash||'').replace('#',''); }catch(_){}
+showPage(ORDER.includes(start)?start:'overview',false);
+</script>
+</body>
+</html>
