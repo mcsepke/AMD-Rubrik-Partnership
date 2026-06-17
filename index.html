@@ -284,6 +284,19 @@
   .ramp-row .rv em{font-style:normal;font-size:8px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 5px;border-radius:4px;}
   .ramp-row.now .rv em{background:var(--rubrik-tint);color:var(--rubrik-deep);}
   .ramp-row.tgt .rv em{background:var(--amd-tint);color:var(--amd-deep);}
+  .ramp-legend{display:flex;gap:18px;margin:2px 0 11px;flex-wrap:wrap;}
+  .ramp-legend span{display:inline-flex;align-items:center;gap:7px;font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:.03em;text-transform:uppercase;color:var(--muted);}
+  .ramp-legend i{width:11px;height:11px;border-radius:3px;display:inline-block;}
+  .ramp.stacked .rtrack{display:flex;overflow:hidden;}
+  .ramp.stacked .rtrack i{height:100%;border-radius:0;transition:width .7s var(--ease);}
+  .ramp.stacked .rtrack i.ent{background:var(--rubrik);}
+  .ramp.stacked .rtrack i.fnd{background:rgba(0,179,136,.32);box-shadow:inset 1.5px 0 0 var(--paper);}
+  .rscp-stack{display:flex;height:30px;border-radius:7px;overflow:hidden;border:1px solid var(--line);margin:9px 0 12px;}
+  .rss-seg{display:flex;align-items:center;justify-content:center;font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:700;color:#fff;letter-spacing:.02em;}
+  .rss-seg + .rss-seg{box-shadow:inset 1.5px 0 0 var(--paper);}
+  .rss-seg.y1{background:var(--rubrik-deep);}
+  .rss-seg.y2{background:var(--rubrik);}
+  .rss-seg.y3{background:rgba(0,179,136,.38);color:var(--rubrik-deep);}
 
   /* Deployment panel */
   .deploy{border:1px solid var(--line);border-radius:14px;padding:24px 26px;margin-bottom:30px;background:var(--paper);}
@@ -803,9 +816,9 @@
       <div>
         <div class="cap-group-h">Cloud foundation · term Nov 2023 → Nov 2026</div>
         <div class="cap">
-          <div class="cap-top"><div class="cap-name">NAS Cloud Direct — Enterprise Edition<span>Active · NetApp NAS protection</span></div><div class="cap-val">1 PB<small>1,000 FETB</small></div></div>
-          <div class="bar win"><i style="width:100%"></i></div>
-          <div class="cap-note">Foundational NAS protection deployed and in production.</div>
+          <div class="cap-top"><div class="cap-name">NAS Cloud Direct — Enterprise Edition<span>Active · 71% adopted</span></div><div class="cap-val">1 PB<small>705 TB used</small></div></div>
+          <div class="bar win"><i style="width:71%"></i></div>
+          <div class="cap-note">705 TB of the 1 PB entitlement in production — foundational NAS protection, with headroom still available.</div>
         </div>
         <div class="cap">
           <div class="cap-top"><div class="cap-name">Rubrik Cloud Vault — Archive Tier<span>Seeded · 0% adopted as of Apr 2026</span></div><div class="cap-val">3 PB<small>0 PB used</small></div></div>
@@ -818,36 +831,38 @@
           <div class="cap-note">Immutable, air-gapped cloud target — already two-thirds consumed.</div>
         </div>
         <div class="cap">
-          <div class="cap-top"><div class="cap-name">Universal Cloud Licenses<span>Bundled · flexible workload coverage</span></div><div class="cap-val">125 TB<small>125 FETB</small></div></div>
-          <div class="bar win"><i style="width:100%"></i></div>
-          <div class="cap-note">Portable entitlement that can flex across protected workloads.</div>
+          <div class="cap-top"><div class="cap-name">Universal Cloud Licenses<span>Active · 90% adopted</span></div><div class="cap-val">125 TB<small>113 TB used</small></div></div>
+          <div class="bar win"><i style="width:90%"></i></div>
+          <div class="cap-note">113 TB of the 125 TB entitlement consumed — portable coverage that flexes across protected workloads.</div>
         </div>
 
-        <div class="cap-group-h second">Cyber recovery · Rubrik Security Cloud + Scale on third-party hardware · 3-year phased ramp · Feb 2025 → Feb 2028</div>
+        <div class="cap-group-h second">Cyber recovery · Rubrik Security Cloud + Scale on third-party hardware · 3-year phased ramp · Feb 2025 → Feb 2027</div>
         <div class="cap">
-          <div class="cap-top"><div class="cap-name">Rubrik Scale Foundation Edition<span>Phased ramp · per usable BETB</span></div><div class="cap-val">6,840<small>BETB by Feb '28</small></div></div>
-          <div class="ramp" aria-label="Foundation Edition phased capacity ramp">
-            <div class="ramp-row"><span class="rl">Launch · Feb '25</span><div class="rtrack"><i style="width:45%"></i></div><span class="rv">3,060</span></div>
-            <div class="ramp-row now"><span class="rl">Year 1 · Feb '26</span><div class="rtrack"><i style="width:67%"></i></div><span class="rv">4,590<em>now</em></span></div>
-            <div class="ramp-row"><span class="rl">Year 2 · Feb '27</span><div class="rtrack"><i style="width:84%"></i></div><span class="rv">~5,715</span></div>
-            <div class="ramp-row tgt"><span class="rl">Year 3 · Feb '28</span><div class="rtrack"><i style="width:100%"></i></div><span class="rv">6,840<em>target</em></span></div>
+          <div class="cap-top"><div class="cap-name">Rubrik Scale — Foundation + Enterprise licensing<span>Foundation covers all usable capacity · Enterprise for the primary copy</span></div><div class="cap-val">6,840<small>BETB Foundation by Feb '27</small></div></div>
+          <div class="ramp-legend">
+            <span><i style="background:var(--rubrik);"></i>Enterprise · primary copy</span>
+            <span><i style="background:rgba(0,179,136,.32);"></i>Foundation only · replication</span>
           </div>
-          <div class="cap-note">Phased in for cost savings — 3,060 BETB at launch, stepped up each anniversary toward the contracted 6,840 BETB. Year-1 capacity (4,590) is active today.</div>
+          <div class="ramp stacked" aria-label="Foundation capacity ramp with Enterprise primary-copy portion">
+            <div class="ramp-row"><span class="rl">Year 1 · Feb '25</span><div class="rtrack"><i class="ent" style="width:24.1%"></i><i class="fnd" style="width:20.6%"></i></div><span class="rv">3,060</span></div>
+            <div class="ramp-row now"><span class="rl">Year 2 · Feb '26</span><div class="rtrack"><i class="ent" style="width:36.2%"></i><i class="fnd" style="width:30.9%"></i></div><span class="rv">4,590<em>now</em></span></div>
+            <div class="ramp-row tgt"><span class="rl">Year 3 · Feb '27</span><div class="rtrack"><i class="ent" style="width:48.2%"></i><i class="fnd" style="width:51.8%"></i></div><span class="rv">6,840<em>target</em></span></div>
+          </div>
+          <div class="cap-note">Foundation licenses <b>every usable BETB</b> across the clusters, ramping to 6,840 BETB by Feb 2027. Enterprise edition is licensed only for the <b>primary copy</b> — where the original backup lands (3,300 BETB at target); the remaining capacity is Foundation-only, typically replication. Year-2 Foundation capacity (4,590) is active today.</div>
         </div>
         <div class="cap">
-          <div class="cap-top"><div class="cap-name">Scale Enterprise Edition Add-on<span>Phased ramp · advanced capability</span></div><div class="cap-val">3,300<small>BETB by Feb '28</small></div></div>
-          <div class="ramp" aria-label="Enterprise Edition phased capacity ramp">
-            <div class="ramp-row"><span class="rl">Launch · Feb '25</span><div class="rtrack"><i style="width:50%"></i></div><span class="rv">1,650</span></div>
-            <div class="ramp-row now"><span class="rl">Year 1 · Feb '26</span><div class="rtrack"><i style="width:75%"></i></div><span class="rv">2,475<em>now</em></span></div>
-            <div class="ramp-row"><span class="rl">Year 2 · Feb '27</span><div class="rtrack"><i style="width:87%"></i></div><span class="rv">~2,888</span></div>
-            <div class="ramp-row tgt"><span class="rl">Year 3 · Feb '28</span><div class="rtrack"><i style="width:100%"></i></div><span class="rv">3,300<em>target</em></span></div>
+          <div class="cap-top"><div class="cap-name">RSC-P Private — China in-country (TPH)<span>Rubrik Security Cloud Private · customer-hosted for China data-sovereignty</span></div><div class="cap-val">720<small>BETB by Feb '27</small></div></div>
+          <div class="rscp-stack" aria-label="RSC-P Private three-year licensing buildup">
+            <div class="rss-seg y1" style="width:50%">360</div>
+            <div class="rss-seg y2" style="width:25%">+180</div>
+            <div class="rss-seg y3" style="width:25%">+180</div>
           </div>
-          <div class="cap-note">Same phased model — 1,650 BETB at launch ramping to the contracted 3,300 BETB. Year-1 capacity (2,475) is active today.</div>
-        </div>
-        <div class="cap">
-          <div class="cap-top"><div class="cap-name">RSC-P Private — China in-country (TPH)<span>Rubrik Security Cloud Private · customer-hosted for China data-sovereignty</span></div><div class="cap-val">540<small>BETB</small></div></div>
-          <div class="bar win"><i style="width:100%"></i></div>
-          <div class="cap-note">360 BETB at launch + 180 BETB in the Feb 2026 expansion · plus a dedicated Customer Experience Manager.</div>
+          <div class="ramp-legend">
+            <span><i style="background:var(--rubrik-deep);"></i>Year 1 · Feb '25 — 360 base</span>
+            <span><i style="background:var(--rubrik);"></i>Year 2 · Feb '26 — +180</span>
+            <span><i style="background:rgba(0,179,136,.38);"></i>Year 3 · Feb '27 — +180 target</span>
+          </div>
+          <div class="cap-note">RSC-P Private steps up across three years — 360 BETB at launch in Feb 2025, +180 BETB in Feb 2026 (540 today), and a final +180 BETB reaching 720 BETB by Feb 2027. Plus a dedicated Customer Experience Manager.</div>
         </div>
       </div>
     </div>
